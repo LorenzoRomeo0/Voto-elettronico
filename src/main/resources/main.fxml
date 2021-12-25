@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+	<columnConstraints>
+		<ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="75.0" />
+		<ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="125.0" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints maxHeight="50.0" minHeight="25.0" vgrow="SOMETIMES" />
+		<RowConstraints maxHeight="1.7976931348623157E308" minHeight="125.0" vgrow="SOMETIMES" />
+	</rowConstraints>
+	<children>
+		<AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
+		<AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+			<children>
+				<HBox alignment="CENTER_RIGHT" layoutX="-21.0" layoutY="-25.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+					<children>
+						<Text fx:id="userType" strokeType="OUTSIDE" strokeWidth="0.0" text="USER TYPE">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Text>
+					</children>
+					<padding>
+						<Insets right="25.0" />
+					</padding>
+				</HBox>
+			</children>
+		</AnchorPane>
+		<AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+			<children>
+				<ListView fx:id="actions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+			</children>
+		</AnchorPane>
+		<AnchorPane fx:id="page" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+	</children>
+</GridPane>
