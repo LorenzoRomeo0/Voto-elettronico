@@ -1,0 +1,10 @@
+controller\Controller_main.class
+controller\Controller_button.class
+controller\Controller_login.class
+system\Pagina.class
+dao\LoginDAO.class
+system\Comune.class
+system\Session.class
+controller\Controller_benvenuto.class
+dao\DatiUtenteDTO.class
+dao\Connect.class
