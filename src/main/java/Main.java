@@ -26,7 +26,6 @@ public class Main extends Application {
 		primaryStage.setMinHeight(350);
 		primaryStage.setWidth(450);
 		primaryStage.setHeight(350);
-		System.out.println("hasjkhdsjkd");
 	}
 
 	public static void main(String[] args) {

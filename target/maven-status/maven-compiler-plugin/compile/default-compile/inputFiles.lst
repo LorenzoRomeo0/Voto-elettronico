@@ -1,17 +1,11 @@
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\Main.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\system\Libretto.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\dao\DbImpl.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\system\CodiceFiscale.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\data\Page.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\controller\ControllerWelcome.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\controller\ControllerMyData.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\data\Status.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\model\ModelLogin.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\dao\UserDTO.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\controller\Controller.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\dao\UserDAO.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\system\Elettore.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\system\Utente.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\controller\ControllerMain.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\dao\UserDAOImpl.java
-C:\Users\loren\OneDrive\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\src\main\java\controller\ControllerLogin.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controller\Controller_main.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\LoginDAO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controller\Controller_login.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\Comune.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\Pagina.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\DatiUtenteDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\Connect.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controller\Controller_benvenuto.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controller\Controller_button.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\Main.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\Session.java
