@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import system.Pagina;
+import system.Session;
 
 public class Controller_main {
 
@@ -40,8 +41,8 @@ public class Controller_main {
     
     private final double min_larghezza_menu = 150;
 	private final double max_larghezza_menu = 300;
-	private boolean barra_menu = true;
-	private boolean barra_content = true;
+	private boolean barra_menu;
+	private boolean barra_content;
 
     @FXML
     void initialize() {
@@ -56,7 +57,8 @@ public class Controller_main {
     }
 
 	public void init() {
-		Pagina pagina = new Pagina("Benvenuto !!!", "../utente/benvenuto.fxml", "../main/button.fxml", content);
+		Session.getInstance().setContent(content);
+		Pagina pagina = new Pagina("Benvenuto !!!", "../utente/benvenuto.fxml", "../main/button.fxml");
 		for (int i = 0; i < 20; i++) {
 			lst_menu.getChildren().add(pagina.caricaBottone());
 		}
@@ -65,6 +67,7 @@ public class Controller_main {
 		}*/
 
 		ScrollBar bar_menu = (ScrollBar) scroll_menu.lookup(".scroll-bar:vertical");
+		barra_menu = bar_menu.isVisible();
 		bar_menu.visibleProperty().addListener((observable, oldValue, newValue) -> {
 			double larghezza_menu = larghezza_menu(container.getWidth());
 			if (newValue) {
@@ -79,6 +82,7 @@ public class Controller_main {
 		});
 
 		ScrollBar bar_content = (ScrollBar) scroll_content.lookup(".scroll-bar:vertical");
+		barra_content = bar_content.isVisible();
 		bar_content.visibleProperty().addListener((observable, oldValue, newValue) -> {
 			double larghezza_content = container_content.getWidth();
 			if (newValue) {
@@ -109,9 +113,7 @@ public class Controller_main {
 			lst_menu.setMaxWidth(larghezza_menu);
 
 			container_content.setMinWidth(larghezza_content);
-			container_content.setMinWidth(larghezza_content);
-			content.setMinWidth(larghezza_content - 2);
-			content.setMaxWidth(larghezza_content - 2);
+			container_content.setMaxWidth(larghezza_content);
 			
 			if (barra_content) {
 				larghezza_content -= 15;

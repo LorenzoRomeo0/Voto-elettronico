@@ -10,13 +10,11 @@ public class Pagina {
 	private String nome;
 	private String content_url;
 	private String button_url;
-	private VBox parent;
 
-	public Pagina(String nome, String content_url, String button_url, VBox parent) {
+	public Pagina(String nome, String content_url, String button_url) {
 		this.nome = nome;
 		this.content_url = content_url;
 		this.button_url = button_url;
-		this.parent = parent;
 	}
 
 	public String getNome() {
@@ -38,11 +36,11 @@ public class Pagina {
 	
 	public void caricaPagina() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(content_url));
-		VBox content = null;
+		VBox container = Session.getInstance().getContent();
 		try {
-			content = loader.load();
-			parent.getChildren().clear();
-			parent.getChildren().add(content);
+			VBox content = loader.load();
+			container.getChildren().clear();
+			container.getChildren().add(content);
 		} catch (IOException e) {
 			System.out.println("caricamento content '" + nome + "' fallito.");
 			e.printStackTrace();
