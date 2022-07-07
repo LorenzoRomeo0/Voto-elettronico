@@ -58,7 +58,7 @@ public class Controller_main {
 
 	public void init() {
 		Session.getInstance().setContent(content);
-		Pagina pagina = new Pagina("Benvenuto !!!", "../utente/benvenuto.fxml", "../main/button.fxml");
+		Pagina pagina = new Pagina("Benvenuto !!!", "/utente/benvenuto.fxml", "/main/button.fxml");
 		for (int i = 0; i < 20; i++) {
 			lst_menu.getChildren().add(pagina.caricaBottone());
 		}
