@@ -3,7 +3,7 @@ package dao;
 import system.Comune;
 import java.time.LocalDate;
 
-public class DatiUtenteDTO {
+public class UtenteDTO {
 
 	private String nome;
 	private String cognome;
@@ -14,7 +14,7 @@ public class DatiUtenteDTO {
 	private String sesso;
 	private LocalDate dataDiNascita;
 
-	public DatiUtenteDTO(String codiceFiscale, String nome, String cognome, int annoNascita, int meseNascita,
+	public UtenteDTO(String codiceFiscale, String nome, String cognome, int annoNascita, int meseNascita,
 			int giornoNascita, String tipoUtente, String nazionalità, String sesso, String comune, String provincia,
 			String regione) {
 		this.nome = nome;

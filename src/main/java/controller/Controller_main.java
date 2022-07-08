@@ -2,11 +2,16 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Skin;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import system.Pagina;
 import system.Session;
 
@@ -53,20 +58,57 @@ public class Controller_main {
         assert lst_menu != null : "fx:id=\"lst_menu\" was not injected: check your FXML file 'main.fxml'.";
         assert scroll_content != null : "fx:id=\"scroll_content\" was not injected: check your FXML file 'main.fxml'.";
         assert scroll_menu != null : "fx:id=\"scroll_menu\" was not injected: check your FXML file 'main.fxml'.";
-
-    }
-
-	public void init() {
-		Session.getInstance().setContent(content);
-		Pagina pagina = new Pagina("Benvenuto !!!", "/utente/benvenuto.fxml", "/main/button.fxml");
+        
+        Session.getInstance().setContent(content);
+        
+        Pagina pagina = new Pagina("Benvenuto !!!", "/utente/benvenuto.fxml", "/main/button.fxml");
 		for (int i = 0; i < 20; i++) {
 			lst_menu.getChildren().add(pagina.caricaBottone());
 		}
-		/*for (int i = 0; i < 50; i++) {
-			content.getChildren().add(pagina.caricaBottone());
-		}*/
+        
+        if(null == scroll_menu.getSkin()) {
+        	scroll_menu.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
-		ScrollBar bar_menu = (ScrollBar) scroll_menu.lookup(".scroll-bar:vertical");
+				@Override
+				public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
+					scroll_menu.skinProperty().removeListener(this);
+					load_menu();
+					refreshStage();
+				}
+        		
+        	});
+        } else {
+        	load_menu();
+        	refreshStage();
+        }
+        
+        if(null == scroll_content.getSkin()) {
+        	scroll_content.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
+					scroll_content.skinProperty().removeListener(this);
+					load_content();
+					refreshStage();
+				}
+        		
+        	});
+        } else {
+			load_content();
+			refreshStage();
+		}
+    }
+    
+    
+    private void  refreshStage() {
+    	Stage stage = Session.getInstance().getStage();
+		double width = stage.getWidth();
+		stage.setMinWidth(width + 1);
+		stage.setMinWidth(width);
+    }
+    
+    private void load_menu( ) {
+    	ScrollBar bar_menu = (ScrollBar) scroll_menu.lookup(".scroll-bar:vertical");
 		barra_menu = bar_menu.isVisible();
 		bar_menu.visibleProperty().addListener((observable, oldValue, newValue) -> {
 			double larghezza_menu = larghezza_menu(container.getWidth());
@@ -80,7 +122,9 @@ public class Controller_main {
 			lst_menu.setMinWidth(larghezza_menu);
 			lst_menu.setMaxWidth(larghezza_menu);
 		});
-
+    }
+    
+	private void load_content() {
 		ScrollBar bar_content = (ScrollBar) scroll_content.lookup(".scroll-bar:vertical");
 		barra_content = bar_content.isVisible();
 		bar_content.visibleProperty().addListener((observable, oldValue, newValue) -> {

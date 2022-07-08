@@ -1,13 +1,13 @@
 package system;
 
-import dao.DatiUtenteDTO;
+import dao.UtenteDTO;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Session {
 	private static Session session;
 	private Stage stage;
-	private DatiUtenteDTO datiUtente;
+	private UtenteDTO Utente;
 	private VBox content;
 	
 	private Session() {
@@ -27,12 +27,12 @@ public class Session {
 		return this.stage;
 	}
 
-	public DatiUtenteDTO getDatiUtente() {
-		return datiUtente;
+	public UtenteDTO getDatiUtente() {
+		return Utente;
 	}
 
-	public void setDatiUtente(DatiUtenteDTO datiUtente) {
-		this.datiUtente = datiUtente;
+	public void setDatiUtente(UtenteDTO Utente) {
+		this.Utente = Utente;
 	}
 
 	public VBox getContent() {

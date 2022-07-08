@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Built-By: loren
-Build-Jdk: 17.0.3
+Built-By: diank
+Build-Jdk: 11.0.13
 Class-Path: lib/javafx-controls-11.jar lib/javafx-controls-11-win.jar li
  b/javafx-graphics-11.jar lib/javafx-graphics-11-win.jar lib/javafx-base
  -11.jar lib/javafx-base-11-win.jar lib/javafx-fxml-11.jar lib/javafx-fx

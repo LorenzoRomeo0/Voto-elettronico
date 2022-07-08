@@ -3,18 +3,45 @@ package dao;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginDAO extends Connect {
+public class SistemaVotazioniDAO {
+	
+	final private String url = "jdbc:mysql://localhost:3306/sistema_votazioni";
+	final private String username = "INGSW";
+	final private String password = "ProgettoINGSW";
+	protected Connection conn;
 
-	public DatiUtenteDTO login(String codiceFiscale, String password) {
+	private void connetti() {
+		try {
+			System.out.println("Connesione al database...");
+			conn = DriverManager.getConnection(url, username, password);
+			System.out.println("Connesso al database!!!");
+		} catch (Exception e) {
+			System.out.println("outore durante la connnessione al database.");
+		}
+	}
+	
+	private void disconnetti() {
+		try {
+			System.out.println("Chiusura connesione al database...");
+			conn.close();
+			System.out.println("Connessione al database chiusa!!!");
+		} catch (Exception e) {
+			System.out.println("outore durante la chiusura della connnessione al database.");
+		}
+	}
+
+	public UtenteDTO login(String codiceFiscale, String password) {
 		System.out.println("---> login...");
 		String codiceFiscaleUpper = codiceFiscale.toUpperCase();
 		String salt = getSalt(codiceFiscaleUpper);
 		String id = null;
-		DatiUtenteDTO dati = null;
+		UtenteDTO dati = null;
 		if (null != salt) {
 			id = getID(codiceFiscaleUpper, salt.concat(password));
 		}
@@ -25,9 +52,9 @@ public class LoginDAO extends Connect {
 		return dati;
 	}
 
-	private DatiUtenteDTO getDatiUtente(String id, String codiceFiscale) {
+	private UtenteDTO getDatiUtente(String id, String codiceFiscale) {
 		System.out.println("---> get dati utenti...");
-		DatiUtenteDTO dati = null;
+		UtenteDTO dati = null;
 		connetti();
 		String sql = "SELECT u.nome, u.cognome, YEAR(u.dataDinascita) as anno, MONTH(u.dataDinascita) as mese, "
 				+ "DAY(u.dataDinascita) as giorno, t.nome as tipologia, p.nome as nazionalita, s.nome as sesso, "
@@ -40,7 +67,7 @@ public class LoginDAO extends Connect {
 			statement.setString(1, id);
 			ResultSet result = statement.executeQuery();
 			if (result.next()) {
-				dati = new DatiUtenteDTO(codiceFiscale, result.getString(1), result.getString(2), result.getInt(3),
+				dati = new UtenteDTO(codiceFiscale, result.getString(1), result.getString(2), result.getInt(3),
 						result.getInt(4), result.getInt(5), result.getString(6), result.getString(7),
 						result.getString(8), result.getString(9), result.getString(10), result.getString(11));
 			}

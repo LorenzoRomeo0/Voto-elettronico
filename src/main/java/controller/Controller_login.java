@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import dao.DatiUtenteDTO;
-import dao.LoginDAO;
+import dao.UtenteDTO;
+import dao.SistemaVotazioniDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,12 +56,12 @@ public class Controller_login {
 	}
 
 	private void login() {
-		LoginDAO login = new LoginDAO();
-		DatiUtenteDTO dati = login.login(in_codiceFiscale.getText(), in_password.getText());
-		if (null == dati) {
+		SistemaVotazioniDAO login = new SistemaVotazioniDAO();
+		UtenteDTO dati = login.login(in_codiceFiscale.getText(), in_password.getText());
+		/*if (null == dati) {
 			txt_error.setVisible(true);
 		} else {
-			txt_error.setVisible(false);
+			txt_error.setVisible(false);*/
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../main/main.fxml"));
 				Parent root = loader.load();
@@ -69,10 +69,12 @@ public class Controller_login {
 				Stage stage = session.getStage();
 				session.setDatiUtente(dati);
 				stage.setScene(new Scene(root));
+				stage.show();;
 			} catch (IOException e) {
 				System.out.println("---> caricamento main fallito.");
+				e.printStackTrace();
 			}
-		}
+		//}
 	}
 
 }
