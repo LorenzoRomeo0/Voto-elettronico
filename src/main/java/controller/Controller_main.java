@@ -13,102 +13,103 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import system.Pagina;
-import system.Session;
+import system.SessionSystem;
 
 public class Controller_main {
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+	@FXML
+	private URL location;
 
-    @FXML
-    private AnchorPane container;
+	@FXML
+	private AnchorPane container;
 
-    @FXML
-    private AnchorPane container_content;
+	@FXML
+	private AnchorPane container_content;
 
-    @FXML
-    private AnchorPane container_menu;
+	@FXML
+	private AnchorPane container_menu;
 
-    @FXML
-    private VBox content;
+	@FXML
+	private VBox content;
 
-    @FXML
-    private VBox lst_menu;
+	@FXML
+	private VBox lst_menu;
 
-    @FXML
-    private ScrollPane scroll_content;
+	@FXML
+	private ScrollPane scroll_content;
 
-    @FXML
-    private ScrollPane scroll_menu;
-    
-    private final double min_larghezza_menu = 150;
+	@FXML
+	private ScrollPane scroll_menu;
+	
+	private final String button_url = "/main/button.fxml";
+	private final double min_larghezza_menu = 150;
 	private final double max_larghezza_menu = 300;
 	private boolean barra_menu;
 	private boolean barra_content;
 
-    @FXML
-    void initialize() {
-        assert container != null : "fx:id=\"container\" was not injected: check your FXML file 'main.fxml'.";
-        assert container_content != null : "fx:id=\"container_content\" was not injected: check your FXML file 'main.fxml'.";
-        assert container_menu != null : "fx:id=\"container_menu\" was not injected: check your FXML file 'main.fxml'.";
-        assert content != null : "fx:id=\"content\" was not injected: check your FXML file 'main.fxml'.";
-        assert lst_menu != null : "fx:id=\"lst_menu\" was not injected: check your FXML file 'main.fxml'.";
-        assert scroll_content != null : "fx:id=\"scroll_content\" was not injected: check your FXML file 'main.fxml'.";
-        assert scroll_menu != null : "fx:id=\"scroll_menu\" was not injected: check your FXML file 'main.fxml'.";
-        
-        Session.getInstance().setContent(content);
-        
-        Pagina pagina = new Pagina("Benvenuto !!!", "/utente/benvenuto.fxml", "/main/button.fxml");
-		for (int i = 0; i < 20; i++) {
-			lst_menu.getChildren().add(pagina.caricaBottone());
-		}
-        
-        if(null == scroll_menu.getSkin()) {
-        	scroll_menu.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+	@FXML
+	void initialize() {
+		assert container != null : "fx:id=\"container\" was not injected: check your FXML file 'main.fxml'.";
+		assert container_content != null
+				: "fx:id=\"container_content\" was not injected: check your FXML file 'main.fxml'.";
+		assert container_menu != null : "fx:id=\"container_menu\" was not injected: check your FXML file 'main.fxml'.";
+		assert content != null : "fx:id=\"content\" was not injected: check your FXML file 'main.fxml'.";
+		assert lst_menu != null : "fx:id=\"lst_menu\" was not injected: check your FXML file 'main.fxml'.";
+		assert scroll_content != null : "fx:id=\"scroll_content\" was not injected: check your FXML file 'main.fxml'.";
+		assert scroll_menu != null : "fx:id=\"scroll_menu\" was not injected: check your FXML file 'main.fxml'.";
+
+		SessionSystem.getInstance().setContent(content);
+
+		Pagina pagina = new Pagina("Benvenuto !!!", "/utente/benvenuto.fxml", button_url);
+		lst_menu.getChildren().add(pagina.caricaBottone());
+		pagina = new Pagina("Crea scheda", "../admin/crea_scheda.fxml", button_url);
+		lst_menu.getChildren().add(pagina.caricaBottone());
+
+		if (null == scroll_menu.getSkin()) {
+			scroll_menu.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
 				@Override
 				public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
 					scroll_menu.skinProperty().removeListener(this);
-					load_menu();
-					refreshStage();
+					carica_menu();
+					aggiorna_stage();
 				}
-        		
-        	});
-        } else {
-        	load_menu();
-        	refreshStage();
-        }
-        
-        if(null == scroll_content.getSkin()) {
-        	scroll_content.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+
+			});
+		} else {
+			carica_menu();
+			aggiorna_stage();
+		}
+
+		if (null == scroll_content.getSkin()) {
+			scroll_content.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
 				@Override
 				public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
 					scroll_content.skinProperty().removeListener(this);
-					load_content();
-					refreshStage();
+					carica_contenuto();
+					aggiorna_stage();
 				}
-        		
-        	});
-        } else {
-			load_content();
-			refreshStage();
+
+			});
+		} else {
+			carica_contenuto();
+			aggiorna_stage();
 		}
-    }
-    
-    
-    private void  refreshStage() {
-    	Stage stage = Session.getInstance().getStage();
+	}
+
+	private void aggiorna_stage() {
+		Stage stage = SessionSystem.getInstance().getStage();
 		double width = stage.getWidth();
 		stage.setMinWidth(width + 1);
 		stage.setMinWidth(width);
-    }
-    
-    private void load_menu( ) {
-    	ScrollBar bar_menu = (ScrollBar) scroll_menu.lookup(".scroll-bar:vertical");
+	}
+
+	private void carica_menu() {
+		ScrollBar bar_menu = (ScrollBar) scroll_menu.lookup(".scroll-bar:vertical");
 		barra_menu = bar_menu.isVisible();
 		bar_menu.visibleProperty().addListener((observable, oldValue, newValue) -> {
 			double larghezza_menu = larghezza_menu(container.getWidth());
@@ -122,9 +123,9 @@ public class Controller_main {
 			lst_menu.setMinWidth(larghezza_menu);
 			lst_menu.setMaxWidth(larghezza_menu);
 		});
-    }
-    
-	private void load_content() {
+	}
+
+	private void carica_contenuto() {
 		ScrollBar bar_content = (ScrollBar) scroll_content.lookup(".scroll-bar:vertical");
 		barra_content = bar_content.isVisible();
 		bar_content.visibleProperty().addListener((observable, oldValue, newValue) -> {
@@ -144,10 +145,10 @@ public class Controller_main {
 			double larghezzaTotale = newValue.doubleValue();
 			double larghezza_menu = larghezza_menu(larghezzaTotale);
 			double larghezza_content = larghezzaTotale - larghezza_menu;
-			
+
 			container_menu.setMinWidth(larghezza_menu);
 			container_menu.setMaxWidth(larghezza_menu);
-			
+
 			if (barra_menu) {
 				larghezza_menu -= 15;
 			} else {
@@ -158,7 +159,7 @@ public class Controller_main {
 
 			container_content.setMinWidth(larghezza_content);
 			container_content.setMaxWidth(larghezza_content);
-			
+
 			if (barra_content) {
 				larghezza_content -= 15;
 			} else {

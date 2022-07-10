@@ -36,7 +36,7 @@ public class Pagina {
 	
 	public void caricaPagina() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(content_url));
-		VBox container = Session.getInstance().getContent();
+		VBox container = SessionSystem.getInstance().getContent();
 		try {
 			VBox content = loader.load();
 			container.getChildren().clear();

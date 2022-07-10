@@ -1,21 +1,19 @@
 package system;
 
-import dao.UtenteDTO;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Session {
-	private static Session session;
+public class SessionSystem {
+	private static SessionSystem session;
 	private Stage stage;
-	private UtenteDTO Utente;
 	private VBox content;
 	
-	private Session() {
+	private SessionSystem() {
 	}
 
-	public static Session getInstance() {
+	public static SessionSystem getInstance() {
 		if (null == session)
-			session = new Session();
+			session = new SessionSystem();
 		return session;
 	}
 
@@ -25,14 +23,6 @@ public class Session {
 
 	public Stage getStage() {
 		return this.stage;
-	}
-
-	public UtenteDTO getDatiUtente() {
-		return Utente;
-	}
-
-	public void setDatiUtente(UtenteDTO Utente) {
-		this.Utente = Utente;
 	}
 
 	public VBox getContent() {

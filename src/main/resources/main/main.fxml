@@ -10,7 +10,7 @@
          <children>
             <ScrollPane fx:id="scroll_content" layoutX="5.0" layoutY="42.0" maxHeight="350.0" maxWidth="300.0" minHeight="350.0" minWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                  <VBox fx:id="content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;" />
+                  <VBox fx:id="content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </content>
             </ScrollPane>
          </children>

@@ -8,9 +8,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SistemaVotazioniDAO {
-	
+
 	final private String url = "jdbc:mysql://localhost:3306/sistema_votazioni";
 	final private String username = "INGSW";
 	final private String password = "ProgettoINGSW";
@@ -25,7 +26,7 @@ public class SistemaVotazioniDAO {
 			System.out.println("outore durante la connnessione al database.");
 		}
 	}
-	
+
 	private void disconnetti() {
 		try {
 			System.out.println("Chiusura connesione al database...");
@@ -138,5 +139,27 @@ public class SistemaVotazioniDAO {
 		disconnetti();
 		System.out.println("---> fine prendi salt");
 		return salt;
+	}
+
+	public ArrayList<TipoSchedaDTO> getTipiSchedaAll() {
+		System.out.println("---> prendi tipi scheda...");
+		connetti();
+		ArrayList<TipoSchedaDTO> tipi_scheda = new ArrayList<TipoSchedaDTO>();
+		String sql = "select id, nome from tipi_scheda;";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				tipi_scheda.add(new TipoSchedaDTO(result.getInt("id"),result.getString("nome")));
+			}
+		} catch (Exception e) {
+			System.out.println("---> prendi salt fallito.");
+		}
+		disconnetti();
+		if (tipi_scheda.size() == 0) {
+			tipi_scheda = null;
+		}
+		System.out.println("---> fine prendi tipi scheda");
+		return tipi_scheda;
 	}
 }

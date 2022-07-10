@@ -17,7 +17,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import system.Session;
+import system.SessionSystem;
+import system.SessionUser;
 
 public class Controller_login {
 
@@ -65,9 +66,10 @@ public class Controller_login {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../main/main.fxml"));
 				Parent root = loader.load();
-				Session session = Session.getInstance();
-				Stage stage = session.getStage();
-				session.setDatiUtente(dati);
+				SessionUser sessionUser = SessionUser.getInstance();
+				SessionSystem sessionSystem = SessionSystem.getInstance();
+				Stage stage = sessionSystem.getStage();
+				sessionUser.setUtente(dati);
 				stage.setScene(new Scene(root));
 				stage.show();;
 			} catch (IOException e) {
