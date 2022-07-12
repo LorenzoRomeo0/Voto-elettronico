@@ -1,8 +1,7 @@
-controller\Controller_main.class
 controller\Controller_button.class
 main\Main.class
+system\Comune.class
+controller\Controller_main.class
 controller\Controller_login.class
 system\Pagina.class
-system\Comune.class
-system\Session.class
 controller\Controller_benvenuto.class

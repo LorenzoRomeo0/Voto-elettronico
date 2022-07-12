@@ -4,7 +4,8 @@ import system.Comune;
 import java.time.LocalDate;
 
 public class UtenteDTO {
-
+	
+	private int id;
 	private String nome;
 	private String cognome;
 	private String codiceFiscale;
@@ -16,7 +17,8 @@ public class UtenteDTO {
 
 	public UtenteDTO(String codiceFiscale, String nome, String cognome, int annoNascita, int meseNascita,
 			int giornoNascita, String tipoUtente, String nazionalità, String sesso, String comune, String provincia,
-			String regione) {
+			String regione, int id) {
+		this.id = id;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.codiceFiscale = codiceFiscale;
@@ -25,6 +27,14 @@ public class UtenteDTO {
 		this.residenza = new Comune(comune, provincia, regione);
 		this.sesso = sesso;
 		this.dataDiNascita = LocalDate.of(annoNascita, meseNascita, giornoNascita);
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNome() {

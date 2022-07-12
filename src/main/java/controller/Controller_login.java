@@ -59,12 +59,12 @@ public class Controller_login {
 	private void login() {
 		SistemaVotazioniDAO login = new SistemaVotazioniDAO();
 		UtenteDTO dati = login.login(in_codiceFiscale.getText(), in_password.getText());
-		/*if (null == dati) {
+		if (null == dati) {
 			txt_error.setVisible(true);
 		} else {
-			txt_error.setVisible(false);*/
+			txt_error.setVisible(false);
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../main/main.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/main.fxml"));
 				Parent root = loader.load();
 				SessionUser sessionUser = SessionUser.getInstance();
 				SessionSystem sessionSystem = SessionSystem.getInstance();
@@ -76,7 +76,7 @@ public class Controller_login {
 				System.out.println("---> caricamento main fallito.");
 				e.printStackTrace();
 			}
-		//}
+		}
 	}
 
 }

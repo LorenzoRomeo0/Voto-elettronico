@@ -53,8 +53,7 @@ public class Controller_main {
 	@FXML
 	void initialize() {
 		assert container != null : "fx:id=\"container\" was not injected: check your FXML file 'main.fxml'.";
-		assert container_content != null
-				: "fx:id=\"container_content\" was not injected: check your FXML file 'main.fxml'.";
+		assert container_content != null : "fx:id=\"container_content\" was not injected: check your FXML file 'main.fxml'.";
 		assert container_menu != null : "fx:id=\"container_menu\" was not injected: check your FXML file 'main.fxml'.";
 		assert content != null : "fx:id=\"content\" was not injected: check your FXML file 'main.fxml'.";
 		assert lst_menu != null : "fx:id=\"lst_menu\" was not injected: check your FXML file 'main.fxml'.";
@@ -65,23 +64,23 @@ public class Controller_main {
 
 		Pagina pagina = new Pagina("Benvenuto !!!", "/utente/benvenuto.fxml", button_url);
 		lst_menu.getChildren().add(pagina.caricaBottone());
-		pagina = new Pagina("Crea scheda", "../admin/crea_scheda.fxml", button_url);
+		pagina = new Pagina("Crea scheda", "/admin/crea_scheda.fxml", button_url);
 		lst_menu.getChildren().add(pagina.caricaBottone());
-
+		pagina = new Pagina("Crea utente", "/admin/crea_utente.fxml", button_url);
+		lst_menu.getChildren().add(pagina.caricaBottone());
+		
 		if (null == scroll_menu.getSkin()) {
 			scroll_menu.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
 				@Override
 				public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
 					scroll_menu.skinProperty().removeListener(this);
-					carica_menu();
-					aggiorna_stage();
+					adatta_menu();
 				}
 
 			});
 		} else {
-			carica_menu();
-			aggiorna_stage();
+			adatta_menu();
 		}
 
 		if (null == scroll_content.getSkin()) {
@@ -90,15 +89,23 @@ public class Controller_main {
 				@Override
 				public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
 					scroll_content.skinProperty().removeListener(this);
-					carica_contenuto();
-					aggiorna_stage();
+					adatta_contenuto();
 				}
 
 			});
 		} else {
-			carica_contenuto();
-			aggiorna_stage();
+			adatta_contenuto();
 		}
+	}
+	
+	private void adatta_contenuto() {
+		carica_contenuto();
+		aggiorna_stage();
+	}
+	
+	private void adatta_menu() {
+		carica_menu();
+		aggiorna_stage();
 	}
 
 	private void aggiorna_stage() {
