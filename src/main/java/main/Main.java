@@ -13,7 +13,7 @@ public class Main extends Application {
 		SessionSystem session = SessionSystem.getInstance();
 		session.setStage(primaryStage);
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/login.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/main.fxml"));
 		Parent root = loader.load();
 		
 		primaryStage.setTitle("Login");

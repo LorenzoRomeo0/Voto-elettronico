@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.Objects;
+
 public class ValoreSempliceDTO {
 	private int id;
 	private String nome;
@@ -25,5 +27,20 @@ public class ValoreSempliceDTO {
 	@Override
 	public String toString() {
 		return nome;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		ValoreSempliceDTO other = (ValoreSempliceDTO) obj;
+		return id == other.id;
 	}	
 }

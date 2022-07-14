@@ -2,7 +2,6 @@ package controller;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -17,6 +16,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import system.SessionSystem;
 import system.SessionUser;
 
 public class Controller_crea_scheda_referendum {
@@ -75,7 +75,7 @@ public class Controller_crea_scheda_referendum {
     		txt_error.setVisible(true);
     		return;
     	}
-    	dao.insert_scheda_referendum(date_formatter(avvio), date_formatter(termine), stato, stato, titolo, referendum);
+    	dao.insert_scheda_referendum(SessionSystem.date_formatter(avvio), SessionSystem.date_formatter(termine), stato, stato, titolo, referendum);
     }
 
 
@@ -119,10 +119,5 @@ public class Controller_crea_scheda_referendum {
 		        }
 		    });
 		});
-    }
-    
-    private String date_formatter(LocalDate data) {
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    	return data.format(formatter);
     }
 }

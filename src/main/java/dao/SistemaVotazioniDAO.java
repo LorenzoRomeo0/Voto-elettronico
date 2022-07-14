@@ -8,11 +8,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SistemaVotazioniDAO {
 	
 	final private int id_referendum = 1;
+	//final private String DEFAULT_SALT = "";
 	
 	final private String url = "jdbc:mysql://localhost:3306/sistema_votazioni";
 	final private String username = "INGSW";
@@ -346,4 +348,36 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi province!!!");
 		return risultato;
 	}
+	
+	public ArrayList<ComuneDTO> get_comune_all() {
+		System.out.println("\n---> prendi comune...");
+		connetti();
+		ArrayList<ComuneDTO> risultato = new ArrayList<ComuneDTO>();
+		String sql = "select id, nome, regione, provincia from comuni order by nome asc;";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				risultato.add(new ComuneDTO(result.getInt("regione"), result.getInt("provincia"), result.getInt("id"), result.getString("nome")));
+			}
+		} catch (Exception e) {
+			System.out.println("---! prendi comuni fallito.");
+		}
+		disconnetti();
+		if (risultato.size() == 0) {
+			risultato = null;
+		}
+		System.out.println("---X fine prendi comuni!!!");
+		return risultato;
+	}
+
+	public String insert_utente(String nome, String cognome, String codiceFiscale, String password, LocalDate nascita,
+			ComuneDTO residenza, ValoreSempliceDTO nazionalita, ValoreSempliceDTO tipologia, ValoreSempliceDTO sesso ) {
+			return null;
+		
+	}
+	
+	/*private String insert_credenziali(String password, String codiceFiscale) {
+		
+	}*/
 }

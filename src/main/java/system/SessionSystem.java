@@ -1,5 +1,8 @@
 package system;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -32,4 +35,9 @@ public class SessionSystem {
 	public void setContent(VBox content) {
 		this.content = content;
 	}
+	
+	public static String date_formatter(LocalDate data) {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    	return data.format(formatter);
+    }
 }
