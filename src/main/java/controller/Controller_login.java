@@ -58,7 +58,7 @@ public class Controller_login {
 
 	private void login() {
 		SistemaVotazioniDAO login = new SistemaVotazioniDAO();
-		UtenteDTO dati = login.login(in_codiceFiscale.getText(), in_password.getText());
+		UtenteDTO dati = login.login(in_codiceFiscale.getText().toUpperCase(), in_password.getText());
 		if (null == dati) {
 			txt_error.setVisible(true);
 		} else {

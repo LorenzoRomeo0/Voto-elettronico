@@ -16,7 +16,6 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import system.SessionSystem;
 import system.SessionUser;
 
 public class Controller_crea_scheda_referendum {
@@ -75,7 +74,7 @@ public class Controller_crea_scheda_referendum {
     		txt_error.setVisible(true);
     		return;
     	}
-    	dao.insert_scheda_referendum(SessionSystem.date_formatter(avvio), SessionSystem.date_formatter(termine), stato, stato, titolo, referendum);
+    	dao.insert_scheda_referendum(avvio, termine, stato, stato, titolo, referendum);
     }
 
 

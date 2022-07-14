@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import system.SessionSystem;
 import javafx.scene.control.PasswordField;
@@ -77,9 +78,12 @@ public class Controller_crea_utente {
 	
 	private final String chk_codiceFiscale = "^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$";
 	private final String chk_password ="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$";
+	
+	private SistemaVotazioniDAO dao;
 
 	@FXML
 	void aggiungi_utente(ActionEvent event) {
+		txt_error.setTextFill(Paint.valueOf("blue"));
 		txt_error.setVisible(false);
 		String nome = txt_nome.getText();
 		String cognome = txt_cognome.getText();
@@ -146,8 +150,17 @@ public class Controller_crea_utente {
 			txt_error.setVisible(true);
 			return;
 		}
+		if (!dao.insert_utente(nome, cognome, codiceFiscale, password1, nascita, comune, nazionalita, tipologia, sesso)) {
+			txt_error.setText("Errore!!! Codice fiscale già in uso.");
+			txt_error.setVisible(true);
+			return;
+		} else {
+			txt_error.setTextFill(Paint.valueOf("black"));
+			txt_error.setText("Utente aggiunto con sucesso!!!");
+			txt_error.setVisible(true);
+		}
 	}
-
+	
 	@FXML
 	void filter_comune(KeyEvent event) {
 		if (event.getCode() != null && cb_comune.isShowing()) {
@@ -304,7 +317,7 @@ public class Controller_crea_utente {
 		provincia_filter = new StringBuilder();
 		comune_filter = new StringBuilder();
 
-		SistemaVotazioniDAO dao = new SistemaVotazioniDAO();
+		dao = new SistemaVotazioniDAO();
 		nazionalita_all = dao.get_nazionalita_all();
 		regione_all = dao.get_regioni_all();
 		provincia_all = dao.get_province_all();

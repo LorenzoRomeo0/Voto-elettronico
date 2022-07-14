@@ -11,20 +11,22 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import system.SessionSystem;
+
 public class SistemaVotazioniDAO {
-	
+
 	final private int id_referendum = 1;
-	//final private String DEFAULT_SALT = "";
-	
-	final private String url = "jdbc:mysql://localhost:3306/sistema_votazioni";
-	final private String username = "INGSW";
-	final private String password = "ProgettoINGSW";
+	final private String default_salt = "fish and chips!!";
+
+	final private String db_url = "jdbc:mysql://localhost:3306/sistema_votazioni";
+	final private String db_username = "INGSW";
+	final private String db_password = "ProgettoINGSW";
 	protected Connection conn;
 
 	private void connetti() {
 		try {
 			System.out.println("Connesione al database...");
-			conn = DriverManager.getConnection(url, username, password);
+			conn = DriverManager.getConnection(db_url, db_username, db_password);
 			System.out.println("Connesso al database!!!");
 		} catch (Exception e) {
 			System.out.println("errore durante la connnessione al database.");
@@ -43,15 +45,14 @@ public class SistemaVotazioniDAO {
 
 	public UtenteDTO login(String codiceFiscale, String password) {
 		System.out.println("\n---> inizio login...");
-		String codiceFiscaleUpper = codiceFiscale.toUpperCase();
-		String salt = get_salt(codiceFiscaleUpper);
+		String salt = get_salt(codiceFiscale);
 		String id = null;
 		UtenteDTO dati = null;
 		if (null != salt) {
-			id = get_ID(codiceFiscaleUpper, salt.concat(password));
+			id = get_ID(codiceFiscale, salt.concat(password));
 		}
 		if (null != id) {
-			dati = get_dati_utente(id, codiceFiscaleUpper);
+			dati = get_dati_utente(id, codiceFiscale);
 		}
 		System.out.println("---X fine login!!!");
 		return dati;
@@ -74,7 +75,8 @@ public class SistemaVotazioniDAO {
 			if (result.next()) {
 				dati = new UtenteDTO(codiceFiscale, result.getString(1), result.getString(2), result.getInt(3),
 						result.getInt(4), result.getInt(5), result.getString(6), result.getString(7),
-						result.getString(8), result.getString(9), result.getString(10), result.getString(11), result.getInt(12));
+						result.getString(8), result.getString(9), result.getString(10), result.getString(11),
+						result.getInt(12));
 			}
 		} catch (SQLException e) {
 			System.out.println("---! prendi dati utenti fallito.");
@@ -143,7 +145,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi salt!!!");
 		return salt;
 	}
-	
+
 	public boolean controllo_nome_scheda(String nome) {
 		System.out.println("\n---> controllo nome scheda...");
 		connetti();
@@ -161,13 +163,14 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine controllo nome scheda!!!");
 		return risultato;
 	}
-	
-	public void insert_scheda_referendum(String avvio, String termine, int creatore, int stato, String nome, String referendum) {
-		insertScheda(avvio, termine, creatore, stato, nome);
+
+	public void insert_scheda_referendum(LocalDate avvio, LocalDate termine, int creatore, int stato, String nome,
+			String referendum) {
+		insertScheda(SessionSystem.date_formatter(avvio), SessionSystem.date_formatter(termine), creatore, stato, nome);
 		int id = get_scheda_ID_by_nome(nome);
 		insert_scheda_referendum(id, referendum);
 	}
-	
+
 	private void insertScheda(String avvio, String termine, int creatore, int stato, String nome) {
 		System.out.println("\n---> inserisci scheda...");
 		connetti();
@@ -188,7 +191,7 @@ public class SistemaVotazioniDAO {
 		disconnetti();
 		System.out.println("---X fine inserisci scheda!!!");
 	}
-	
+
 	private Integer get_scheda_ID_by_nome(String nome) {
 		System.out.println("\n---> prendi id scheda con nome...");
 		connetti();
@@ -208,7 +211,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi id scheda con nome!!!");
 		return risultato;
 	}
-	
+
 	private void insert_scheda_referendum(int id, String referendum) {
 		System.out.println("\n---> inserisci scheda referendum...");
 		connetti();
@@ -224,7 +227,7 @@ public class SistemaVotazioniDAO {
 		disconnetti();
 		System.out.println("---X fine inserisci scheda referendum!!!");
 	}
-	
+
 	public ArrayList<ValoreSempliceDTO> get_nazionalita_all() {
 		System.out.println("\n---> prendi nazionalità...");
 		String sql = "select id, nome from paesi order by nome asc;";
@@ -237,7 +240,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi nazionalità!!!");
 		return risultati;
 	}
-	
+
 	public ArrayList<ValoreSempliceDTO> get_tipi_utente_all() {
 		System.out.println("\n---> prendi tipologie utente...");
 		String sql = "select id, nome from tipi_utente order by nome asc;";
@@ -250,7 +253,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi tipologie utente!!!");
 		return risultati;
 	}
-	
+
 	public ArrayList<ValoreSempliceDTO> get_sessi_all() {
 		System.out.println("\n---> prendi sessi...");
 		String sql = "select id, nome from sessi order by nome asc;";
@@ -263,7 +266,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi sessi!!!");
 		return risultati;
 	}
-	
+
 	public ArrayList<ValoreSempliceDTO> get_tipi_scheda_all() {
 		System.out.println("\n---> prendi tipi scheda...");
 		String sql = "select id, nome from tipi_scheda;";
@@ -276,7 +279,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi tipi scheda!!!");
 		return risultati;
 	}
-	
+
 	public ArrayList<ValoreSempliceDTO> get_schede_stati_all() {
 		System.out.println("\n---> prendi stati scheda...");
 		String sql = "select id, nome from stati_scheda;";
@@ -289,14 +292,14 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi stati scheda!!!");
 		return risultati;
 	}
-	
+
 	private ArrayList<ValoreSempliceDTO> get_valori_semplici(String sql) throws SQLException {
 		connetti();
 		ArrayList<ValoreSempliceDTO> tipi_scheda = new ArrayList<ValoreSempliceDTO>();
 		PreparedStatement statement = conn.prepareStatement(sql);
 		ResultSet result = statement.executeQuery();
 		while (result.next()) {
-			tipi_scheda.add(new ValoreSempliceDTO(result.getInt("id"),result.getString("nome")));
+			tipi_scheda.add(new ValoreSempliceDTO(result.getInt("id"), result.getString("nome")));
 		}
 		disconnetti();
 		if (tipi_scheda.size() == 0) {
@@ -314,7 +317,7 @@ public class SistemaVotazioniDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
-				risultato.add(new RegioneDTO(result.getInt("id"),result.getString("nome")));
+				risultato.add(new RegioneDTO(result.getInt("id"), result.getString("nome")));
 			}
 		} catch (Exception e) {
 			System.out.println("---! prendi regioni fallito.");
@@ -326,7 +329,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi nazionalità!!!");
 		return risultato;
 	}
-	
+
 	public ArrayList<ProvinciaDTO> get_province_all() {
 		System.out.println("\n---> prendi province...");
 		connetti();
@@ -336,7 +339,8 @@ public class SistemaVotazioniDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
-				risultato.add(new ProvinciaDTO(result.getInt("id"), result.getString("nome"), result.getInt("regione")));
+				risultato
+						.add(new ProvinciaDTO(result.getInt("id"), result.getString("nome"), result.getInt("regione")));
 			}
 		} catch (Exception e) {
 			System.out.println("---! prendi province fallito.");
@@ -348,7 +352,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi province!!!");
 		return risultato;
 	}
-	
+
 	public ArrayList<ComuneDTO> get_comune_all() {
 		System.out.println("\n---> prendi comune...");
 		connetti();
@@ -358,7 +362,8 @@ public class SistemaVotazioniDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
-				risultato.add(new ComuneDTO(result.getInt("regione"), result.getInt("provincia"), result.getInt("id"), result.getString("nome")));
+				risultato.add(new ComuneDTO(result.getInt("regione"), result.getInt("provincia"), result.getInt("id"),
+						result.getString("nome")));
 			}
 		} catch (Exception e) {
 			System.out.println("---! prendi comuni fallito.");
@@ -371,13 +376,63 @@ public class SistemaVotazioniDAO {
 		return risultato;
 	}
 
-	public String insert_utente(String nome, String cognome, String codiceFiscale, String password, LocalDate nascita,
-			ComuneDTO residenza, ValoreSempliceDTO nazionalita, ValoreSempliceDTO tipologia, ValoreSempliceDTO sesso ) {
-			return null;
-		
+	public boolean insert_utente(String nome, String cognome, String codiceFiscale, String password, LocalDate nascita,
+			ComuneDTO residenza, ValoreSempliceDTO nazionalita, ValoreSempliceDTO tipologia, ValoreSempliceDTO sesso) {
+		boolean inserted = true;
+		if (null != get_salt(codiceFiscale)) {
+			inserted = false;
+		} else {
+			String saltedPassword = default_salt.concat(password);
+			insert_credenziali(codiceFiscale, saltedPassword, default_salt);
+			String id = get_ID(codiceFiscale, saltedPassword);
+			insert_dati_utenti(id, nome, cognome, nascita, residenza, nazionalita, tipologia, sesso);
+		}
+		return inserted;
+
 	}
 	
-	/*private String insert_credenziali(String password, String codiceFiscale) {
+	private void insert_dati_utenti(String id, String nome, String cognome, LocalDate nascita, ComuneDTO residenza,
+			ValoreSempliceDTO nazionalita, ValoreSempliceDTO tipologia, ValoreSempliceDTO sesso) {
+		System.out.println("\n---> inserisci dati utente...");
+		connetti();
+		String sql = "insert into utenti (id, nome, cognome, dataDiNascita, tipologia, "
+				+ "nazionalita, residenza, genere) values (?, ?, ?, "
+				+ "STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?, ?);";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, id);
+			statement.setString(2, nome);
+			statement.setString(3, cognome);
+			statement.setString(4, SessionSystem.date_formatter(nascita));
+			statement.setInt(5, tipologia.getId());
+			statement.setInt(6, nazionalita.getId());
+			statement.setInt(7, residenza.getId());
+			statement.setInt(8, sesso.getId());
+			statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("---! inserisci dati utente fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci dati utente!!!");
 		
-	}*/
+	}
+
+	private void insert_credenziali(String codiceFiscale, String saltedPassword, String salt) {
+		System.out.println("\n---> inserisci credenziali...");
+		connetti();
+		String sql = "insert into credenziali (codiceFiscale, pwd, salt) values (?, ?, ?);";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, codiceFiscale);
+			statement.setString(2, crypta_password(saltedPassword));
+			statement.setString(3, salt);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("---! inserisci credenziali fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci credenziali!!!");
+	}
 }
