@@ -83,7 +83,7 @@ public class Controller_crea_utente {
 
 	@FXML
 	void aggiungi_utente(ActionEvent event) {
-		txt_error.setTextFill(Paint.valueOf("blue"));
+		txt_error.setTextFill(Paint.valueOf("red"));
 		txt_error.setVisible(false);
 		String nome = txt_nome.getText();
 		String cognome = txt_cognome.getText();
