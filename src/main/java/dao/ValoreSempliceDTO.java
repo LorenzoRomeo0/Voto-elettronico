@@ -40,6 +40,8 @@ public class ValoreSempliceDTO {
 			return true;
 		if (obj == null)
 			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		ValoreSempliceDTO other = (ValoreSempliceDTO) obj;
 		return id == other.id;
 	}	

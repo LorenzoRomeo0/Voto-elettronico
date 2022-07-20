@@ -73,7 +73,7 @@
             <Insets />
          </VBox.margin>
       </GridPane>
-      <HBox alignment="CENTER" maxWidth="1.7976931348623157E308">
+      <HBox alignment="CENTER" maxWidth="650.0">
          <children>
             <Label fx:id="txt_error" style="-fx-text-fill: red;" text="Errore!!!" visible="false">
                <HBox.margin>

@@ -1,4 +1,5 @@
 package main;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -6,14 +7,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import system.SessionSystem;
 
-public class Main extends Application {
+public class Main extends Application { 
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		SessionSystem session = SessionSystem.getInstance();
 		session.setStage(primaryStage);
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/main.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/login.fxml"));
 		Parent root = loader.load();
 		
 		primaryStage.setTitle("Login");
@@ -30,5 +31,4 @@ public class Main extends Application {
 		launch(args);
 		return;
 	}
-
 }

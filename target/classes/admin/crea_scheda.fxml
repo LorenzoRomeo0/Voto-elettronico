@@ -8,14 +8,14 @@
 
 <VBox fx:id="content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller_crea_scheda">
    <children>
-      <HBox alignment="CENTER_LEFT">
+      <HBox alignment="CENTER_LEFT" maxWidth="640.0">
          <children>
             <Label text="Tipologia: ">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Label>
-            <ComboBox fx:id="cb_tipo_scheda" maxWidth="200.0" />
+            <ComboBox fx:id="cb_tipo_scheda" maxWidth="640.0" onAction="#selected" HBox.hgrow="ALWAYS" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
