@@ -12,10 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import system.Referendum;
 import system.SessionSystem;
 
 public class SistemaVotazioniDAO {
@@ -24,7 +26,7 @@ public class SistemaVotazioniDAO {
 	final private int id_ordinale = 2;
 	final private int id_categorica = 3;
 	final private int id_categorica_preferenza = 4;
-	
+
 	final private String default_salt = "fish and chips!!";
 
 	final private String db_url = "jdbc:mysql://localhost:3306/sistema_votazioni";
@@ -179,7 +181,8 @@ public class SistemaVotazioniDAO {
 		insert_scheda_referendum(id, referendum);
 	}
 
-	private Integer insert_scheda(LocalDate avvio, LocalDate termine, int creatore, int stato, String nome, int tipologia) {
+	private Integer insert_scheda(LocalDate avvio, LocalDate termine, int creatore, int stato, String nome,
+			int tipologia) {
 		System.out.println("\n---> inserisci scheda...");
 		connetti();
 		String sql = "insert into schede(dataAvvio, dataTermine, creatore, stato, tipologia, nome) "
@@ -302,17 +305,17 @@ public class SistemaVotazioniDAO {
 
 	private ArrayList<ValoreSempliceDTO> get_valori_semplici(String sql) throws SQLException {
 		connetti();
-		ArrayList<ValoreSempliceDTO> tipi_scheda = new ArrayList<ValoreSempliceDTO>();
+		ArrayList<ValoreSempliceDTO> risultati = new ArrayList<ValoreSempliceDTO>();
 		PreparedStatement statement = conn.prepareStatement(sql);
 		ResultSet result = statement.executeQuery();
 		while (result.next()) {
-			tipi_scheda.add(new ValoreSempliceDTO(result.getInt("id"), result.getString("nome")));
+			risultati.add(new ValoreSempliceDTO(result.getInt("id"), result.getString("nome")));
 		}
 		disconnetti();
-		if (tipi_scheda.size() == 0) {
-			tipi_scheda = null;
+		if (risultati.size() == 0) {
+			risultati = null;
 		}
-		return tipi_scheda;
+		return risultati;
 	}
 
 	public ArrayList<RegioneDTO> get_regioni_all() {
@@ -571,9 +574,9 @@ public class SistemaVotazioniDAO {
 			statement_lista.setInt(1, id);
 			statement_lista.setString(2, nome);
 			statement_lista.executeUpdate();
-			
+
 			System.out.println("---> lista inserita");
-			
+
 			for (CandidatoDTO candidato : candidati) {
 				PreparedStatement statement_partecipanti = conn.prepareStatement(sql_partecipanti);
 				statement_partecipanti.setInt(1, id);
@@ -587,7 +590,7 @@ public class SistemaVotazioniDAO {
 		disconnetti();
 		System.out.println("---X fine inserisci !!!");
 	}
-	
+
 	public ArrayList<ListaDTO> get_liste_filtrati(String filtro) {
 		System.out.println("\n---> prendi liste filtrati...");
 		connetti();
@@ -610,8 +613,9 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine prendi liste filtrati!!!");
 		return risultato;
 	}
-	
-	public void insert_scheda_ordinale (LocalDate avvio, LocalDate termine, int creatore, int stato, String nome, Collection<Votabile> partecipanti) {
+
+	public void insert_scheda_ordinale(LocalDate avvio, LocalDate termine, int creatore, int stato, String nome,
+			Collection<Votabile> partecipanti) {
 		System.out.println("\n---> inserisci scheda ordinale...");
 		int id = insert_scheda(avvio, termine, creatore, stato, nome, id_ordinale);
 		connetti();
@@ -621,7 +625,7 @@ public class SistemaVotazioniDAO {
 			PreparedStatement statement_scheda = conn.prepareStatement(sql_scheda);
 			statement_scheda.setInt(1, id);
 			statement_scheda.executeUpdate();
-			
+
 			for (Votabile votabile : partecipanti) {
 				PreparedStatement statement_partecipanti = conn.prepareStatement(sql_concorrenti);
 				statement_partecipanti.setInt(1, id);
@@ -635,8 +639,9 @@ public class SistemaVotazioniDAO {
 		disconnetti();
 		System.out.println("---X fine inserisci elementi scheda ordinali!!!");
 	}
-	
-	public void insert_scheda_categorica (LocalDate avvio, LocalDate termine, int creatore, int stato, String nome, Collection<Votabile> aspiranti) {
+
+	public void insert_scheda_categorica(LocalDate avvio, LocalDate termine, int creatore, int stato, String nome,
+			Collection<Votabile> aspiranti) {
 		System.out.println("\n---> inserisci scheda categorica...");
 		int id = insert_scheda(avvio, termine, creatore, stato, nome, id_categorica);
 		connetti();
@@ -646,7 +651,7 @@ public class SistemaVotazioniDAO {
 			PreparedStatement statement_scheda = conn.prepareStatement(sql_scheda);
 			statement_scheda.setInt(1, id);
 			statement_scheda.executeUpdate();
-			
+
 			for (Votabile votabile : aspiranti) {
 				PreparedStatement statement_aspiranti = conn.prepareStatement(sql_aspiranti);
 				statement_aspiranti.setInt(1, id);
@@ -660,8 +665,9 @@ public class SistemaVotazioniDAO {
 		disconnetti();
 		System.out.println("---X fine inserisci elementi scheda categorica!!!");
 	}
-	
-	public void insert_scheda_categorica_preferenza (LocalDate avvio, LocalDate termine, int creatore, int stato, String nome, Collection<Votabile> aspiranti) {
+
+	public void insert_scheda_categorica_preferenza(LocalDate avvio, LocalDate termine, int creatore, int stato,
+			String nome, Collection<Votabile> aspiranti) {
 		System.out.println("\n---> inserisci scheda categorica con preferenza...");
 		int id = insert_scheda(avvio, termine, creatore, stato, nome, id_categorica_preferenza);
 		connetti();
@@ -671,7 +677,7 @@ public class SistemaVotazioniDAO {
 			PreparedStatement statement_scheda = conn.prepareStatement(sql_scheda);
 			statement_scheda.setInt(1, id);
 			statement_scheda.executeUpdate();
-			
+
 			for (Votabile votabile : aspiranti) {
 				PreparedStatement statement_aspiranti = conn.prepareStatement(sql_aspiranti);
 				statement_aspiranti.setInt(1, id);
@@ -684,5 +690,99 @@ public class SistemaVotazioniDAO {
 		}
 		disconnetti();
 		System.out.println("---X fine inserisci elementi scheda categorica con preferenza!!!");
+	}
+
+	public ArrayList<SchedaDTO> get_schede_votabili(int id_utente) {
+		System.out.println("\n---> prendi schede votabili...");
+		connetti();
+		String sql = "select s.id, s.nome, ts.nome as tipologia from schede as s join tipi_scheda as ts on s.tipologia = ts.id join stati_scheda as st on s.stato = st.id "
+				+ "where s.id not in (select idScheda as id from schede_compilate where idUtente = ?) and st.nome = \"abilitato\";";
+		ArrayList<SchedaDTO> risultati = new ArrayList<SchedaDTO>();
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id_utente);	
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				risultati.add(new SchedaDTO(result.getInt("id"), result.getString("nome"), result.getString("tipologia")));
+			}
+		} catch (SQLException e) {
+			System.out.println("---! errore prendi schede votabili fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		if (risultati.size() == 0) {
+			risultati = null;
+		}
+		System.out.println("---X fine prendi schede votabili!!!");
+		return risultati;
+	}
+	
+	public String get_referendum (int id_scheda) {
+		System.out.println("\n---> prendi scheda referendum...");
+		connetti();
+		String sql = "select referendum from schede as s join schede_referendum as sr on s.id = sr.id where sr.id = ?;";
+		String value = null;
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id_scheda);
+			ResultSet result = statement.executeQuery();
+			if (result.next()) {
+				value = result.getString("referendum");
+			}
+		} catch (SQLException e) {
+			System.out.println("---! errore prendi scheda referendum fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine prendi scheda referendum!!!");
+		return value;
+	}
+	
+	public void insert_voto_referendum(int id_scheda, Referendum voto) {
+		System.out.println("\n---> inserisci voto referendum...");
+		connetti();
+		String sql = "insert into voti_scheda_referendum(id_scheda, voto) values (?, ?);";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setInt(1, id_scheda);
+			switch (voto) {
+			case FAVOREVOLE:
+				statement.setByte(2, (byte) 1);
+				break;
+			case NON_FAVOREVOLE:
+				statement.setByte(2, (byte) 0);
+				break;
+			case NULLO:
+				statement.setNull(2, Types.BIT);
+				break;
+			default:
+				Exception e = new Exception("valore voto referendum non valido");
+				throw e;
+			}
+			statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("---! errore inserisci voto referendum fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci voto referendum!!!");
+	}
+	
+	public void insert_schede_votate (int id_utente, int id_scheda) {
+		System.out.println("\n---> inserisci scheda votata...");
+		connetti();
+		String sql = "insert into schede_compilate (idUtente, idScheda) values (?, ?);";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id_utente);
+			statement.setInt(2, id_scheda);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("---! errore prendi schede votabili fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci scheda votata!!!");
 	}
 }

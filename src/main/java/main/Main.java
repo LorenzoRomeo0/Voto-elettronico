@@ -19,12 +19,12 @@ public class Main extends Application {
 		
 		primaryStage.setTitle("Login");
 		primaryStage.setScene(new Scene(root, 450, 350));
-		primaryStage.show();
 		
 		primaryStage.setMinWidth(450);
 		primaryStage.setMinHeight(350);
 		primaryStage.setWidth(450);
 		primaryStage.setHeight(350); 
+		primaryStage.show();
 	}
 
 	public static void main(String[] args) {

@@ -9,6 +9,25 @@ import javafx.stage.Stage;
 public class SessionSystem {
 	private static SessionSystem session;
 	private Stage stage;
+	private Stage popup;
+	private Object popup_value;
+	
+	public Object getPopup_Value() {
+		return popup_value;
+	}
+
+	public void setPopup_Value(Object popup_value) {
+		this.popup_value = popup_value;
+	}
+
+	public Stage getPopup() {
+		return popup;
+	}
+
+	public void setPopup(Stage popup) {
+		this.popup = popup;
+	}
+
 	private VBox content;
 	
 	private SessionSystem() {
