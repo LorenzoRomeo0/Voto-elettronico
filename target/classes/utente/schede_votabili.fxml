@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller_schede_votabili">
+<VBox fx:id="content" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller_schede_votabili">
    <children>
       <VBox alignment="TOP_RIGHT" maxWidth="650.0">
          <children>

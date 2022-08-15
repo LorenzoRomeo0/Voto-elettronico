@@ -741,10 +741,9 @@ public class SistemaVotazioniDAO {
 	public void insert_voto_referendum(int id_scheda, Referendum voto) {
 		System.out.println("\n---> inserisci voto referendum...");
 		connetti();
-		String sql = "insert into voti_scheda_referendum(id_scheda, voto) values (?, ?);";
+		String sql = "insert into voti_scheda_referendum(idScheda, voto) values (?, ?);";
 		try {
 			PreparedStatement statement = conn.prepareStatement(sql);
-			
 			statement.setInt(1, id_scheda);
 			switch (voto) {
 			case FAVOREVOLE:
@@ -784,5 +783,51 @@ public class SistemaVotazioniDAO {
 		}
 		disconnetti();
 		System.out.println("---X fine inserisci scheda votata!!!");
+	}
+	
+	public ArrayList<CandidatoDTO> getAspiranti(int id_scheda_categorica) {
+		System.out.println("\n---> prendi aspiranti...");
+		connetti();
+		String sql = "select c.* from aspiranti as a join candidati as c on a.idCandidato = c.id where a.idScheda = ? order by cognome asc, nome asc;";
+		ArrayList<CandidatoDTO> risultati = new ArrayList<CandidatoDTO>();
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id_scheda_categorica);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				risultati.add(new CandidatoDTO(result.getInt("id"), result.getString("nome"),
+						result.getString("cognome"), result.getInt("genere"), result.getInt("sostiene")));
+			}
+		} catch (SQLException e) {
+			System.out.println("---! errore prendi aspiranti fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		if (risultati.size() == 0) {
+			risultati = null;
+		}
+		System.out.println("---X fine prendi aspiranti!!!");
+		return risultati;
+	}
+	
+	public void insert_voto_categorico(int id_scheda, Integer id_votato) {
+		System.out.println("\n---> inserisci voto categorico...");
+		connetti();
+		String sql = "insert voti_scheda_categorica(idScheda, voto) values (?,?)";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, id_scheda);
+			if(null != id_votato) {
+				statement.setInt(2, id_votato);
+			} else {
+				statement.setNull(2, Types.INTEGER);
+			}
+			statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("---! errore inserisci voto categorico fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci voto categorico!!!");
 	}
 }

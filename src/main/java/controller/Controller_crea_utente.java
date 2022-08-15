@@ -156,7 +156,7 @@ public class Controller_crea_utente {
 			return;
 		} else {
 			txt_error.setTextFill(Paint.valueOf("black"));
-			txt_error.setText("Utente aggiunto con sucesso!!!");
+			txt_error.setText("Utente aggiunto con successo!!!");
 			txt_error.setVisible(true);
 		}
 	}

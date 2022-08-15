@@ -71,7 +71,7 @@ public class Controller_login {
 				Stage stage = sessionSystem.getStage();
 				sessionUser.setUtente(dati);
 				stage.setScene(new Scene(root));
-				stage.show();;
+				stage.show();
 			} catch (IOException e) {
 				System.out.println("---> caricamento main fallito.");
 				e.printStackTrace();

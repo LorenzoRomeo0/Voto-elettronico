@@ -54,6 +54,11 @@ public class CandidatoDTO implements Votabile{
 		return partito;
 	}
 
+	@Override
+	public String toString() {
+		return cognome + " " + nome;
+	}
+
 	public void setPartito(int partito) {
 		this.partito = partito;
 	}

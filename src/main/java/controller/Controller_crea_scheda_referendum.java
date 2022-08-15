@@ -73,7 +73,7 @@ public class Controller_crea_scheda_referendum {
 		} else {
 			dao.insert_scheda_referendum(avvio, termine, u.getId(), stato, titolo, referendum);
 			txt_error.setTextFill(Paint.valueOf("black"));
-			txt_error.setText("Scheda aggiunta con sucesso!!!");
+			txt_error.setText("Scheda aggiunta con successo!!!");
 			txt_error.setVisible(true);
 		}
 	}

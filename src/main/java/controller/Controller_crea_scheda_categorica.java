@@ -49,7 +49,7 @@ public class Controller_crea_scheda_categorica extends Controller_crea_scheda_o_
 		} else {
 			dao.insert_scheda_categorica(avvio, termine, stato, stato, titolo, values);
 	    	txt_error.setTextFill(Paint.valueOf("black"));
-			txt_error.setText("Scheda aggiunta con sucesso!!!");
+			txt_error.setText("Scheda aggiunta con successo!!!");
 			txt_error.setVisible(true);
 		}
 	}

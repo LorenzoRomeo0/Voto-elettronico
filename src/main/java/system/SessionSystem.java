@@ -10,14 +10,23 @@ public class SessionSystem {
 	private static SessionSystem session;
 	private Stage stage;
 	private Stage popup;
-	private Object popup_value;
+	private Object[] message;
 	
-	public Object getPopup_Value() {
-		return popup_value;
+	public Object getMessage() {
+		return message[0];
+	}
+	
+	public Object getMessage(int i) {
+		return message[i];
 	}
 
-	public void setPopup_Value(Object popup_value) {
-		this.popup_value = popup_value;
+	public void setMessage() throws Exception{
+		Exception e = new Exception("valore non settato");
+		throw e;
+	}
+	
+	public void setMessage(Object... message) {
+		this.message = message;
 	}
 
 	public Stage getPopup() {

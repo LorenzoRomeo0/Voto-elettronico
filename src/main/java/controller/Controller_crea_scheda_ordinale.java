@@ -49,7 +49,7 @@ public class Controller_crea_scheda_ordinale extends Controller_crea_scheda_o_c_
 		} else {
 			dao.insert_scheda_ordinale(avvio, termine, u.getId(), stato, titolo, values);
 	    	txt_error.setTextFill(Paint.valueOf("black"));
-			txt_error.setText("Scheda aggiunta con sucesso!!!");
+			txt_error.setText("Scheda aggiunta con successo!!!");
 			txt_error.setVisible(true);
 		}
 	}
