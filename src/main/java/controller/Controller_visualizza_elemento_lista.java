@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import system.CheckBoxObserver;
+import system.CheckBoxUpdater;
 import system.SessionSystem;
 
 public class Controller_visualizza_elemento_lista {
@@ -21,7 +21,7 @@ public class Controller_visualizza_elemento_lista {
     private CheckBox chkb_opzione;
     
     private int pos;
-    private CheckBoxObserver observer;
+    private CheckBoxUpdater observer;
     
     @FXML
     void selected(ActionEvent event) {
@@ -34,7 +34,7 @@ public class Controller_visualizza_elemento_lista {
         SessionSystem ss = SessionSystem.getInstance();
         String string = (String) ss.getMessage();
         pos = (int) ss.getMessage(1);
-        observer = (CheckBoxObserver) ss.getMessage(2);
+        observer = (CheckBoxUpdater) ss.getMessage(2);
         observer.add(chkb_opzione);
         chkb_opzione.setText(string);
     }

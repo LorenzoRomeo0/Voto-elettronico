@@ -51,6 +51,8 @@ public class Controller_schede_votabili {
 				carica = "/utente/vota_scheda_referendum.fxml";
 			} else if (value.getTipoScheda().equals("categorica")) {
 				carica = "/utente/vota_scheda_categorica.fxml";
+			}if (value.getTipoScheda().equals("categorica con preferenza")) {
+				carica = "/utente/vota_scheda_categorica_preferenza.fxml";
 			}
 			if (null != carica) {
 				try {

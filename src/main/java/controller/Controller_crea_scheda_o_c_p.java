@@ -93,15 +93,7 @@ public class Controller_crea_scheda_o_c_p {
 				if (tb_partecipanti.getItems().indexOf(candidato) == -1) {
 					tb_partecipanti.getItems().add(candidato);
 				}
-
-			} else if (tipo.equals("lista")) {
-				ListaDTO lista = (ListaDTO) votabile;
-				if (tb_partecipanti.getItems().indexOf(lista) == -1) {
-					tb_partecipanti.getItems().add(lista);
-				}
-
 			}
-			
 		}
 		tb_partecipanti.refresh();
 	}
@@ -121,11 +113,6 @@ public class Controller_crea_scheda_o_c_p {
 			}
 		} else if (tipo.equals("candidato")) {
 			ArrayList<CandidatoDTO> values = dao.get_candidati_filtrati(filtro);
-			if (null != values) {
-				tb_trovati.setItems(FXCollections.observableArrayList(values));
-			}
-		} else if (tipo.equals("lista")) {
-			ArrayList<ListaDTO> values = dao.get_liste_filtrati(filtro);
 			if (null != values) {
 				tb_trovati.setItems(FXCollections.observableArrayList(values));
 			}

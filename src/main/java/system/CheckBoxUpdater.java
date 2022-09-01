@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import javafx.scene.control.CheckBox;
 
-public class CheckBoxObserver {
+public class CheckBoxUpdater {
 	private ArrayList<CheckBox> chks = new ArrayList<>();
 	private int selected;
 
-	public CheckBoxObserver() {
+	public CheckBoxUpdater() {
 		this.selected = -1;
 	}
 

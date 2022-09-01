@@ -5,9 +5,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import dao.CandidatoDTO;
 import dao.SchedaDTO;
 import dao.SistemaVotazioniDAO;
+import dao.Votabile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import system.CheckBoxObserver;
+import system.CheckBoxUpdater;
 import system.SessionSystem;
 import system.SessionUser;
 
@@ -49,8 +49,8 @@ public class Controller_vota_scheda_categorica {
 	private VBox schermata;
 
 	private boolean col2_visible;
-	private CheckBoxObserver options;
-	private ArrayList<CandidatoDTO> aspiranti;
+	private CheckBoxUpdater options;
+	private ArrayList<Votabile> aspiranti;
 	private final double col_max_width = 500.0;
 	private SessionSystem session_system;
 	private SistemaVotazioniDAO dao;
@@ -60,7 +60,7 @@ public class Controller_vota_scheda_categorica {
 	@FXML
 	void conferma_voto(ActionEvent event) {
 		if (options.getSelected() != -1) {
-			CandidatoDTO c = aspiranti.get(options.getSelected());
+			Votabile c = aspiranti.get(options.getSelected());
 			session_system.setMessage(c);
 			try {
 				creaPopup();
@@ -160,9 +160,9 @@ public class Controller_vota_scheda_categorica {
 		
 		session_user = SessionUser.getInstance();
 		scheda = session_user.getScheda();
-		aspiranti = dao.getAspiranti(scheda.getId());
+		aspiranti = dao.get_aspiranti_scheda(scheda);
 
-		options = new CheckBoxObserver();
+		options = new CheckBoxUpdater();
 		caricaGridpane();
 	}
 
@@ -188,8 +188,8 @@ public class Controller_vota_scheda_categorica {
 		int row = 0;
 		for (int i = 0; i < aspiranti.size(); i++) {
 			try {
-				CandidatoDTO a = aspiranti.get(i);
-				session_system.setMessage(a.getCognome() + " " + a.getNome(), i, options);
+				Votabile a = aspiranti.get(i);
+				session_system.setMessage(a.toString(), i, options);
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/visualizza_elemento_lista.fxml"));
 				int column = 0;
 				if (!col2_visible && i % 2 != 0) {

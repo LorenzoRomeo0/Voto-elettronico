@@ -31,6 +31,7 @@ public class Controller_crea_scheda_ordinale extends Controller_crea_scheda_o_c_
     	LocalDate termine = dpk_termine.getValue();
     	int stato = cb_stato.getValue().getId();
     	UtenteDTO u =  SessionUser.getInstance().getUtente();
+    	int tipo_scheda = cb_tipo.getValue().getId();
     	
     	txt_error.setVisible(false);
 		txt_error.setTextFill(Paint.valueOf("red"));
@@ -47,7 +48,7 @@ public class Controller_crea_scheda_ordinale extends Controller_crea_scheda_o_c_
 			txt_error.setText("Errore!!! Serve almeno un partecipante.");
 			txt_error.setVisible(true);
 		} else {
-			dao.insert_scheda_ordinale(avvio, termine, u.getId(), stato, titolo, values);
+			dao.insert_scheda_ordinale(avvio, termine, u.getId(), stato, titolo, values, tipo_scheda);
 	    	txt_error.setTextFill(Paint.valueOf("black"));
 			txt_error.setText("Scheda aggiunta con successo!!!");
 			txt_error.setVisible(true);

@@ -1,5 +1,6 @@
 controller\Controller_button.class
 main\Main.class
+dao\SistemaVotazioniDAO$1.class
 system\Comune.class
 controller\Controller_main.class
 controller\Controller_login.class

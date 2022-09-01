@@ -2,13 +2,8 @@ package dao;
 
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class PartitoDTO implements Votabile{
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
 
 	private int id;
 	private String nome;
