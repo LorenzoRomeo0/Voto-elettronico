@@ -1,8 +1,5 @@
-/controllerElettore/
-/controllerImpiegato/
-/controllerMain/
-/dao/
-/data/
-/main/
-/system/
 /META-INF/
+/main/
+/controllerElettore/
+/system/
+/dao/

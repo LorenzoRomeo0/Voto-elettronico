@@ -7,6 +7,7 @@ import dao.UtenteDTO;
 import system.luoghi.Comune;
 import system.voto.Voto;
 import system.voto.VotoCategorico;
+import system.voto.VotoCategoricoConPreferenza;
 import system.voto.VotoOrdinale;
 import system.voto.VotoReferendum;
 
@@ -50,7 +51,11 @@ public class Elettore extends Utente {
 			VotoOrdinale votoOrdinale = (VotoOrdinale) voto;
 			dao.insertVotoOrdinale(votoOrdinale.getSchedaId(), votoOrdinale.getVoto());
 			libretto.addScheda(voto.getScheda());
-		}
+		} if (voto instanceof VotoCategoricoConPreferenza) {
+			VotoCategoricoConPreferenza vccp = (VotoCategoricoConPreferenza) voto;
+			dao.insertVotaSchedaCategoricaConPreferenze(vccp.getSchedaId(), vccp.getLista(), vccp.getVoto());
+			libretto.addScheda(voto.getScheda());
+		} 
 		dao.insertSchedeCompilate(id, voto.getSchedaId());
 	} 
 	

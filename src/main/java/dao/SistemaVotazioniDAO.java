@@ -23,7 +23,6 @@ import data.Referendum;
 import system.luoghi.Comune;
 import system.luoghi.Nazionalita;
 import system.votabili.Votabile;
-import system.voto.VotoCategorico;
 
 public class SistemaVotazioniDAO {
 
@@ -199,7 +198,6 @@ public class SistemaVotazioniDAO {
 			ResultSet rs = statement.getGeneratedKeys();
 			if (rs.next()) {
 				key = Integer.valueOf(rs.getInt(1));
-				System.out.println(key);
 			}
 		} catch (Exception e) {
 			System.out.println("---! inserisci scheda fallito.");
@@ -817,7 +815,6 @@ public class SistemaVotazioniDAO {
 				statement.setNull(2, Types.INTEGER);
 				statement.setNull(3, Types.INTEGER);
 			}
-			System.out.println(statement);
 			statement.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("---! errore inserisci voto ordinale fallito.");
@@ -825,6 +822,52 @@ public class SistemaVotazioniDAO {
 		}
 		disconnetti();
 		System.out.println("---X fine inserisci voto ordinale!!!");
+	}
 
+	public void insertVotaSchedaCategoricaConPreferenze(int id_scheda, int id_lista, ArrayList<Votabile> voto) {
+		System.out.println("\n---> inserisci voto categorico con preferenza...");
+		connetti();
+		String sql = "insert into voti_scheda_categorica_con_preferenza (id_scheda, id_lista) values (?,?);";
+		Integer key = null;
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+			if (null != voto) {
+				statement.setInt(1, id_scheda);
+				statement.setInt(2, id_lista);
+			} else {
+				statement.setInt(1, id_scheda);
+				statement.setNull(2, Types.INTEGER);
+			}
+			statement.executeUpdate();
+			if (null != voto) {
+				ResultSet rs = statement.getGeneratedKeys();
+				if (rs.next()) {
+					key = Integer.valueOf(rs.getInt(1));
+					StringBuilder sql_preferenze = new StringBuilder(
+							"insert preferenze(id_voto, id_candidato) values (?,?),");
+					for (int i = 0; i < voto.size() - 1; i++) {
+						sql_preferenze.append("(?,?),");
+					}
+					sql_preferenze.deleteCharAt(sql_preferenze.length() - 1).append(";");
+					PreparedStatement statement_preferenze = conn.prepareStatement(sql_preferenze.toString());
+					int j = 1;
+					for (int i = 0; i < voto.size(); i++) {
+						statement_preferenze.setInt(j, key);
+						j++;
+						statement_preferenze.setInt(j, voto.get(i).getId());
+						j++;
+					}
+					statement_preferenze.execute();
+				} else {
+					throw new Exception();
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("---! errore inserisci voto categorico con preferenza fallito.");
+			e.printStackTrace();
+		}
+
+		disconnetti();
+		System.out.println("---X fine inserisci voto categorico con preferenza!!!");
 	}
 }

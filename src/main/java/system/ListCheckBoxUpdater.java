@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import javafx.scene.control.CheckBox;
 
 public class ListCheckBoxUpdater extends CheckBoxUpdater{
-	private ArrayList<ListCheckbox> chks;
+	private ArrayList<ListCheckBox> chks;
 	private ArrayList<Integer> selectedChecks;
 	private int selected;
+	
+	private int candidato;
 	private int lista;
 	
 	public ListCheckBoxUpdater() {
@@ -18,7 +20,7 @@ public class ListCheckBoxUpdater extends CheckBoxUpdater{
 	
 	@Override
 	public void add(CheckBox chk) {
-		this.chks.add(new ListCheckbox(lista, chk));
+		this.chks.add(new ListCheckBox(lista, candidato,  chk));
 	}
 
 	@Override
@@ -28,12 +30,11 @@ public class ListCheckBoxUpdater extends CheckBoxUpdater{
 	
 	@Override
 	public void selected(int pos) {
-		System.out.println(chks);
-		ListCheckbox sel = chks.get(pos);
+		ListCheckBox sel = chks.get(pos);
 		selected = sel.getLista();
 		selectedChecks.clear();
 		for (int i = 0; i < chks.size(); i++) {
-			ListCheckbox a = chks.get(i);
+			ListCheckBox a = chks.get(i);
 			if(a.getLista() != selected) {
 				a.getCheckbox().setSelected(false);
 			} else {
@@ -67,42 +68,27 @@ public class ListCheckBoxUpdater extends CheckBoxUpdater{
 	public void setLista(int lista) {
 		this.lista = lista;
 	}
-	
-	public ArrayList<Integer> isOneTrue() {
-		
-	}
-}
 
-class ListCheckbox {
-	private int lista;
-	private CheckBox checkbox;
-	
-	public ListCheckbox(int lista, CheckBox checkbox) {
-		super();
-		this.lista = lista;
-		this.checkbox = checkbox;
+	public int getCandidato() {
+		return candidato;
 	}
 
-	public int getLista() {
-		return lista;
+	public void setCandidato(int candidato) {
+		this.candidato = candidato;
 	}
 
-	public void setLista(int lista) {
-		this.lista = lista;
+	public ArrayList<ListCheckBox> getValues() {
+		ArrayList<ListCheckBox> values = new ArrayList<ListCheckBox>();
+		for (int i = 0; i < chks.size(); i++) {
+			for (int j = 0; j < selectedChecks.size(); j++) {
+				if(i == selectedChecks.get(j)) {
+					values.add(chks.get(i));
+				} 
+			}
+		}
+		if(values.size() == 0) {
+			values = null;
+		}
+		return values;
 	}
-
-	public CheckBox getCheckbox() {
-		return checkbox;
-	}
-
-	public void setCheckbox(CheckBox checkbox) {
-		this.checkbox = checkbox;
-	}
-
-	@Override
-	public String toString() {
-		return "ListCheckbox [lista=" + lista + ", checkbox=" + checkbox.getText() + "]";
-	}
-
-	
 }

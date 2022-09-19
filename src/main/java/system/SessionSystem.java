@@ -11,15 +11,14 @@ import dao.ProvinciaDTO;
 import dao.RegioneDTO;
 import dao.SchedaDTO;
 import dao.SistemaVotazioniDAO;
+import data.Stato;
 import data.TipoScheda;
 import data.TipoVotabile;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import system.luoghi.Comune;
 import system.luoghi.Nazionalita;
 import system.luoghi.Provincia;
@@ -440,7 +439,7 @@ public class SessionSystem {
 		ArrayList<Scheda> schedeNonCompilate = (ArrayList<Scheda>) schede.clone();
 		if (utente instanceof Elettore) {
 			Elettore e = (Elettore) utente;
-			schedeNonCompilate.removeIf(t -> e.getLibretto().haVotato(t.getId()));
+			schedeNonCompilate.removeIf(t -> e.getLibretto().haVotato(t.getId()) || t.getStato().equals(Stato.CONCLUSO));
 		}
 		return schedeNonCompilate;
 	}

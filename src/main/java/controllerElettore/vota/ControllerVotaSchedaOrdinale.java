@@ -60,7 +60,6 @@ public class ControllerVotaSchedaOrdinale {
 			elettore.vota(voto);
 			SessionSystem.getInstance().loadMain();
 		}
-
 	}
 
 	@FXML
@@ -157,7 +156,7 @@ public class ControllerVotaSchedaOrdinale {
 		popup.setTitle("Conferma voto");
 		// chiusura con la X del popup
 		popup.setOnCloseRequest((observable) -> {
-			ss.setMessage(null, false);
+			ss.setMessage(false);
 		});
 		popup.showAndWait();
 	}

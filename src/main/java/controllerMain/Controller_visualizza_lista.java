@@ -12,7 +12,7 @@ import system.SessionSystem;
 import system.votabili.Lista;
 import system.votabili.Votabile;
 
-public class ControllerVisualizzaLista {
+public class Controller_visualizza_lista {
 
     @FXML
     private ResourceBundle resources;
@@ -44,6 +44,7 @@ public class ControllerVisualizzaLista {
         ArrayList<Votabile> aspiranti = lista.getCandidati();
 		for (int i = 0; i < aspiranti.size(); i++) {
 			try {
+				m.setCandidato(i);
 				Votabile a = aspiranti.get(i);
 				ss.setMessage(a.toString(), m.getNextId() , m);
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/visualizza_elemento_lista.fxml"));

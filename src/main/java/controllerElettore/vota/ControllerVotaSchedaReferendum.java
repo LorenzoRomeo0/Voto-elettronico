@@ -91,7 +91,7 @@ public class ControllerVotaSchedaReferendum {
 		popup.setTitle("Conferma voto");
 		// chiusura con la X del popup
 		popup.setOnCloseRequest((observable) -> {
-			ss.setMessage(null, false);
+			ss.setMessage(false);
 		});
 		popup.setMinWidth(250);
 		popup.setMinHeight(150);
