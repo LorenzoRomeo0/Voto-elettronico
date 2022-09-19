@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllerImpiegato.creaSchede.ControllerCreaScheda">
+   <children>
+      <HBox alignment="CENTER_LEFT" maxWidth="640.0">
+         <children>
+            <Label text="Tipologia: ">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Label>
+            <ComboBox fx:id="cb_tipo_scheda" maxWidth="640.0" onAction="#selected" HBox.hgrow="ALWAYS" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </HBox>
+      <VBox fx:id="crea_scheda_content" maxWidth="1.7976931348623157E308" />
+   </children>
+</VBox>

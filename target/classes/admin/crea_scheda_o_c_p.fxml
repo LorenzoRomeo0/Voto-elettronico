@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxWidth="650.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Nome scheda:" />
+      <TextField fx:id="txt_titolo" maxWidth="650.0" />
+      <Label text="Data di avvio:" />
+      <DatePicker fx:id="dpk_avvio" maxWidth="650.0" />
+      <Label text="Data termine" />
+      <DatePicker fx:id="dpk_termine" maxWidth="650.0" />
+      <Label text="Stato" />
+      <ComboBox fx:id="cb_stato" maxWidth="650.0" />
+      <Label text="Esito:" />
+      <ComboBox fx:id="cb_esito" maxWidth="650.0" />
+      <VBox fx:id="vb_tipo">
+         <children>
+            <Label text="Tipo di candidato:">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox fx:id="cb_tipo" maxWidth="650.0" onAction="#selezione_tipo" />
+         </children>
+      </VBox>
+      <Label text="Partecipanti:">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <TableView fx:id="tb_partecipanti" maxHeight="250.0" maxWidth="650.0" minHeight="150.0" />
+      <HBox alignment="CENTER_RIGHT" maxWidth="650.0">
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+         <children>
+            <Button fx:id="btn_insert" disable="true" mnemonicParsing="false" onAction="#inserisci_scheda" text="Inserisci scheda">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btn_rimuovi" disable="true" mnemonicParsing="false" onAction="#rimuovi" text="Rimuovi" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" maxWidth="650.0">
+         <children>
+            <Label fx:id="txt_error" maxWidth="650.0" style="-fx-text-fill: red;" text="Errore!!!" visible="false">
+               <HBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filtro:" />
+      <HBox maxWidth="650.0">
+         <children>
+            <TextField fx:id="txt_filtro" disable="true" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btn_cerca" disable="true" maxWidth="80.0" mnemonicParsing="false" onAction="#cerca" text="Cerca" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Trovati:">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Text>
+      <TableView fx:id="tb_trovati" maxHeight="250.0" maxWidth="650.0" minHeight="150.0" />
+      <HBox alignment="CENTER_RIGHT" maxWidth="650.0">
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+         <children>
+            <Button fx:id="btn_aggiungi" disable="true" mnemonicParsing="false" onAction="#aggiungi" text="Aggiungi" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

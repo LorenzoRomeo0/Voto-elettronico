@@ -1,17 +1,62 @@
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\controller\ControllerWelcome.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\dao\UserDAO.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\system\CodiceFiscale.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\system\Libretto.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\model\ModelLogin.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\dao\DbImpl.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\controller\Controller.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\Main.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\controller\ControllerMain.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\controller\ControllerMyData.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\data\Page.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\dao\UserDTO.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\data\Status.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\system\Utente.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\dao\UserDAOImpl.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\controller\ControllerLogin.java
-C:\Users\loren\Desktop\Progetto ingsw\Progetto\Code\Voto_elettronico\Voto-elettronico\src\main\java\system\Elettore.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\SchedaDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\CheckBoxUpdater.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerMain\Controller_login.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerMain\Controller_scegli_tipo_visualizzazione.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\data\Sesso.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\schede\SchedaOrdinale.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\ListaDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\voto\VotoReferendum.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\luoghi\Regione.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\votabili\Votabile.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\data\TipoScheda.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerImpiegato\creaSchede\ControllerCreaSchedaCategorica.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\PartitoDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerElettore\ControllerSchedeVotabili.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\schede\SchedaFactory.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerImpiegato\ControllerCreaUtente.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\luoghi\Comune.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\utenti\Libretto.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\ValoreSempliceDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\data\Stato.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerMain\Controller_visualizza_elemento_lista.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\data\Esito.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerMain\Controller_main.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\data\Referendum.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerElettore\vota\ControllerVotaSchedaCategorica.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\Pagina.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerMain\Controller_button.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\utenti\Elettore.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\schede\SchedaReferendum.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerImpiegato\creaSchede\ControllerCreaSchedaOrdinale.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\luoghi\Nazionalita.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerElettore\ControllerBenvenuto.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\CandidatoDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\utenti\Utente.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\ProvinciaDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\ComuneDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\voto\Voto.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerImpiegato\creaSchede\ControllerCreaScheda_o_c_p.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\main\Main.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\Valore.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\SessionSystem.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerMain\Controller_popup_voto.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\votabili\Lista.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\RegioneDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\schede\SchedaCategoricaConPreferenze.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerImpiegato\creaSchede\ControllerCreaScheda.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\voto\VotoCategorico.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerImpiegato\creaSchede\ControllerCreaSchedaReferendum.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\utenti\Impiegato.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerElettore\vota\ControllerVotaSchedaOrdinale.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\data\TipoVotabile.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\SistemaVotazioniDAO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerElettore\vota\ControllerVotaSchedaReferendum.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\UtenteDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\votabili\Partito.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\votabili\Candidato.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\dao\NazionalitaDTO.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\controllerImpiegato\creaSchede\ControllerCreaSchedaCategoricaPreferenza.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\schede\SchedaCategorica.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\data\TipoUtente.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\schede\Scheda.java
+C:\Users\diank\Desktop\progetto\Voto-elettronico\src\main\java\system\luoghi\Provincia.java
