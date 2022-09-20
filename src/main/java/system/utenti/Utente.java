@@ -3,6 +3,7 @@ package system.utenti;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import dao.SistemaVotazioniDAO;
 import dao.UtenteDTO;
 import data.TipoUtente;
 import system.luoghi.Comune;
@@ -18,6 +19,8 @@ public abstract class Utente {
 	protected String codiceFiscale;
 	protected TipoUtente tipo;
 	
+	protected SistemaVotazioniDAO dao;
+	
 	protected Utente(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, String nazionalita,
 			String codiceFiscale, String tipo) {
 		super();
@@ -29,6 +32,7 @@ public abstract class Utente {
 		this.nazionalita = nazionalita;
 		this.codiceFiscale = codiceFiscale;
 		this.tipo = TipoUtente.valueOf(tipo);
+		this.dao = SistemaVotazioniDAO.getInstance();
 	}
 	
 	protected Utente(UtenteDTO utente, Comune residenza) {

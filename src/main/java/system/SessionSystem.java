@@ -456,6 +456,16 @@ public class SessionSystem {
 		}
 		return compilate;
 	}
+	
+	public ArrayList<Scheda> getSchedeConcluse() {
+		ArrayList<Scheda> compilate = new ArrayList<Scheda>();
+		for (Scheda scheda : schede) {
+			if (scheda.getStato().equals(Stato.CONCLUSO)) {
+				compilate.add(scheda);
+			}
+		}
+		return compilate;
+	}
 
 	public Object getMessage() {
 		return message[0];

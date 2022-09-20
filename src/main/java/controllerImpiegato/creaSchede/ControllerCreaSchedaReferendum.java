@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import dao.SistemaVotazioniDAO;
 import data.Esito;
 import data.Stato;
 import data.TipoScheda;
@@ -21,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import system.SessionSystem;
 import system.Valore;
+import system.utenti.Impiegato;
 import system.utenti.Utente;
 
 public class ControllerCreaSchedaReferendum {
@@ -81,15 +81,15 @@ public class ControllerCreaSchedaReferendum {
 		} else {
 			Stato stato = (Stato) cb_stato.getValue().getObj();
 			Esito esito = (Esito) cb_esito.getValue().getObj();
-			SistemaVotazioniDAO dao =  SistemaVotazioniDAO.getInstance();
-			boolean result = dao.insertSchedaReferendum(avvio, termine, u.getId(), stato, esito, titolo, referendum);
-			if (result) {
+			
+			Impiegato imp = (Impiegato) SessionSystem.getInstance().getUtente();
+			if (null != imp) {
+				imp.creaSchedaReferendum(avvio, termine, stato, esito, titolo, referendum);
 				txt_error.setTextFill(Paint.valueOf("black"));
 				txt_error.setText("Scheda aggiunta con successo!!!");
 				txt_error.setVisible(true);
 			} else {
-				txt_error.setTextFill(Paint.valueOf("red"));
-				txt_error.setText("Errore con inserimento scheda!!! Prova a cambiarle il nome.");
+				txt_error.setText("Errore!!! durante l'inserimento.");
 				txt_error.setVisible(true);
 			}
 		}		

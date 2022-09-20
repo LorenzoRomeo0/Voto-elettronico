@@ -7,8 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import system.ListCheckBoxUpdater;
 import system.SessionSystem;
+import system.checkboxManagers.ListCheckBoxUpdater;
 import system.votabili.Lista;
 import system.votabili.Votabile;
 

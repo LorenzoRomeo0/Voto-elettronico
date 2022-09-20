@@ -166,14 +166,12 @@ public class SistemaVotazioniDAO {
 		return dati;
 	}
 
-	public boolean insertSchedaReferendum(LocalDate avvio, LocalDate termine, int creatore, Stato stato, Esito esito,
+	public void insertSchedaReferendum(LocalDate avvio, LocalDate termine, int creatore, Stato stato, Esito esito,
 			String nome, String referendum) {
 		Integer id = insertScheda(avvio, termine, creatore, stato.id(), esito.id(), nome, TipoScheda.REFERENDUM.id());
 		if (null != id) {
-			return insertSchedaReferendum(id, referendum);
+			insertSchedaReferendum(id, referendum);
 		}
-		System.out.println("---! inserisci scheda referendum fallito.");
-		return false;
 	}
 
 	private Integer insertScheda(LocalDate avvio, LocalDate termine, int creatore, int stato, int esito, String nome,
@@ -213,23 +211,20 @@ public class SistemaVotazioniDAO {
 		return data.format(formatter);
 	}
 
-	private boolean insertSchedaReferendum(int id, String referendum) {
+	private void insertSchedaReferendum(int id, String referendum) {
 		System.out.println("\n---> inserisci scheda referendum...");
 		connetti();
 		String sql = "insert ignore into schede_referendum (id, referendum) values (?, ?);";
-		boolean inserito = false;
 		try {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id);
 			statement.setString(2, referendum);
 			statement.executeUpdate();
-			inserito = true;
 		} catch (Exception e) {
 			System.out.println("---! inserisci scheda referendum fallito.");
 		}
 		disconnetti();
 		System.out.println("---X fine inserisci scheda referendum!!!");
-		return inserito;
 	}
 
 	public ArrayList<PartitoDTO> getAllPartiti() {

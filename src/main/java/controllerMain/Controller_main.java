@@ -79,6 +79,8 @@ public class Controller_main {
 			lst_menu.getChildren().add(pagina.caricaBottone());
 			pagina = new Pagina("Crea utente", "/admin/crea_utente.fxml", button_url);
 			lst_menu.getChildren().add(pagina.caricaBottone());
+			pagina = new Pagina("Calcola esito", "/admin/esito_scheda.fxml", button_url);
+			lst_menu.getChildren().add(pagina.caricaBottone());
 		}
 		
 		if (null == scroll_menu.getSkin()) {

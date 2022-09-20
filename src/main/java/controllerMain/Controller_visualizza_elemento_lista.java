@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import system.CheckBoxUpdater;
 import system.SessionSystem;
+import system.checkboxManagers.CheckBoxUpdater;
 
 public class Controller_visualizza_elemento_lista {
 

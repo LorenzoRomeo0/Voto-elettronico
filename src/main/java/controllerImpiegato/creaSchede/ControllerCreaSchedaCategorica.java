@@ -3,7 +3,6 @@ package controllerImpiegato.creaSchede;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import dao.SistemaVotazioniDAO;
 import data.Esito;
 import data.Stato;
 import data.TipoUtente;
@@ -14,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.paint.Paint;
 import system.SessionSystem;
 import system.Valore;
+import system.utenti.Impiegato;
 import system.utenti.Utente;
 import system.votabili.Votabile;
 
@@ -30,7 +30,6 @@ public class ControllerCreaSchedaCategorica extends ControllerCreaScheda_o_c_p{
 	@FXML
 	@Override
 	void inserisci_scheda(ActionEvent event) {
-		SistemaVotazioniDAO dao = SistemaVotazioniDAO.getInstance();
 		super.inserisci_scheda(event);
 		
 		ArrayList<Votabile> values = new ArrayList<Votabile>();
@@ -57,10 +56,16 @@ public class ControllerCreaSchedaCategorica extends ControllerCreaScheda_o_c_p{
 			txt_error.setText("Errore!!! Serve almeno un partecipante.");
 			txt_error.setVisible(true);
 		} else {
-			dao.insertSchedaCategorica(avvio, termine, u.getId(), stato, esito, tipo, titolo, values);
-	    	txt_error.setTextFill(Paint.valueOf("black"));
-			txt_error.setText("Scheda aggiunta con successo!!!");
-			txt_error.setVisible(true);
+			Impiegato imp = (Impiegato) SessionSystem.getInstance().getUtente();
+			if (null != imp) {
+				imp.creaSchedaCategorica(avvio, termine, stato, esito, tipo, titolo, values);
+		    	txt_error.setTextFill(Paint.valueOf("black"));
+				txt_error.setText("Scheda aggiunta con successo!!!");
+				txt_error.setVisible(true);
+			} else {
+				txt_error.setText("Errore!!! durante l'inserimento.");
+				txt_error.setVisible(true);
+			}
 		}
 	}
 }

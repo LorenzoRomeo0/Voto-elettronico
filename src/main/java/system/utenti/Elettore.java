@@ -1,8 +1,6 @@
 package system.utenti;
 
 import java.time.LocalDate;
-
-import dao.SistemaVotazioniDAO;
 import dao.UtenteDTO;
 import system.luoghi.Comune;
 import system.voto.Voto;
@@ -38,7 +36,6 @@ public class Elettore extends Utente {
 	}
 
 	public void vota(Voto voto) {
-		SistemaVotazioniDAO dao = SistemaVotazioniDAO.getInstance();
 		if (voto instanceof VotoReferendum) {
 			VotoReferendum votoReferendum = (VotoReferendum) voto;
 			dao.insertVotoReferendum(votoReferendum.getSchedaId(), votoReferendum.getValue());

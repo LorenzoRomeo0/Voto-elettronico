@@ -2,7 +2,6 @@ package controllerImpiegato.creaSchede;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import dao.SistemaVotazioniDAO;
 import data.Esito;
 import data.Stato;
 import data.TipoUtente;
@@ -13,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Paint;
 import system.SessionSystem;
+import system.utenti.Impiegato;
 import system.utenti.Utente;
 import system.votabili.Lista;
 import system.votabili.Votabile;
@@ -94,11 +94,16 @@ public class ControllerCreaSchedaCategoricaPreferenza extends ControllerCreaSche
 			txt_error.setText("Errore!!! Serve almeno un partecipante.");
 			txt_error.setVisible(true);
 		} else {
-			SistemaVotazioniDAO dao = SistemaVotazioniDAO.getInstance();
-			dao.insertSchedaCategoricaPreferenza(avvio, termine, u.getId(), stato, esito, titolo, values);
-			txt_error.setTextFill(Paint.valueOf("black"));
-			txt_error.setText("Scheda aggiunta con successo!!!");
-			txt_error.setVisible(true);
+			Impiegato imp = (Impiegato) SessionSystem.getInstance().getUtente();
+			if (null != imp) {
+				imp.creaSchedaCategoricaConPreferenza(avvio, termine, stato, esito, titolo, values);
+				txt_error.setTextFill(Paint.valueOf("black"));
+				txt_error.setText("Scheda aggiunta con successo!!!");
+				txt_error.setVisible(true);
+			} else {
+				txt_error.setText("Errore!!! durante l'inserimento.");
+				txt_error.setVisible(true);
+			}
 		}
 	}
 }

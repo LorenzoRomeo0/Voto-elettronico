@@ -1,7 +1,6 @@
 package system.schede;
 
 import java.util.ArrayList;
-
 import dao.SchedaDTO;
 import system.votabili.Votabile;
 

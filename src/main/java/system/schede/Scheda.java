@@ -1,11 +1,13 @@
 package system.schede;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import dao.SchedaDTO;
 import data.Stato;
 import data.Esito;
 import data.TipoScheda;
+import system.voto.Voto;
 
 public abstract class Scheda {
 
@@ -18,7 +20,7 @@ public abstract class Scheda {
 	protected TipoScheda tipoScheda;
 	protected Esito esito;
 
-	/* private arrayList Voto voti; */
+	protected ArrayList<Voto> voti;
 
 	public Scheda(SchedaDTO scheda) {
 		this.id = scheda.getId();
@@ -92,6 +94,12 @@ public abstract class Scheda {
 				+ ", stato=" + stato + ", tipoScheda=" + tipoScheda + ", esito=" + esito + "]";
 	}
 	
-	
+	public ArrayList<Voto> getVoti() {
+		return voti;
+	}
+
+	public void setVoti(ArrayList<Voto> voti) {
+		this.voti = voti;
+	}
 
 }

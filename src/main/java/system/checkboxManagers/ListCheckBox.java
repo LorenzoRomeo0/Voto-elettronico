@@ -1,4 +1,4 @@
-package system;
+package system.checkboxManagers;
 
 import javafx.scene.control.CheckBox;
 
