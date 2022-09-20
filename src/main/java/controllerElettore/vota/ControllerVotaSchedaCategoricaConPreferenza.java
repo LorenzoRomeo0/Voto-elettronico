@@ -80,7 +80,7 @@ public class ControllerVotaSchedaCategoricaConPreferenza {
 			}
 			boolean inserisci = (boolean) ss.getMessage();
 			if (inserisci) {
-				VotoCategoricoConPreferenza voto = new VotoCategoricoConPreferenza(scheda, l.getId(), votabili);
+				VotoCategoricoConPreferenza voto = new VotoCategoricoConPreferenza(scheda, l, votabili);
 				elettore.vota(voto);
 				SessionSystem.getInstance().loadMain();
 			}

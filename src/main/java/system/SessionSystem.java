@@ -439,7 +439,8 @@ public class SessionSystem {
 		ArrayList<Scheda> schedeNonCompilate = (ArrayList<Scheda>) schede.clone();
 		if (utente instanceof Elettore) {
 			Elettore e = (Elettore) utente;
-			schedeNonCompilate.removeIf(t -> e.getLibretto().haVotato(t.getId()) || t.getStato().equals(Stato.CONCLUSO));
+			schedeNonCompilate
+					.removeIf(t -> e.getLibretto().haVotato(t.getId()) || t.getStato().equals(Stato.CONCLUSO));
 		}
 		return schedeNonCompilate;
 	}
@@ -456,7 +457,7 @@ public class SessionSystem {
 		}
 		return compilate;
 	}
-	
+
 	public ArrayList<Scheda> getSchedeConcluse() {
 		ArrayList<Scheda> compilate = new ArrayList<Scheda>();
 		for (Scheda scheda : schede) {

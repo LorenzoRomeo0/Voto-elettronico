@@ -2,14 +2,15 @@ package system.voto;
 
 import java.util.ArrayList;
 import system.schede.Scheda;
+import system.votabili.Lista;
 import system.votabili.Votabile;
 
 public class VotoCategoricoConPreferenza extends Voto {
 	
 	private ArrayList<Votabile> voto;
-	private int lista;
+	private Lista lista;
 
-	public VotoCategoricoConPreferenza(Scheda scheda, Integer id_lista, ArrayList<Votabile> voto) {
+	public VotoCategoricoConPreferenza(Scheda scheda, Lista id_lista, ArrayList<Votabile> voto) {
 		super(scheda);
 		this.voto = voto;
 		this.lista = id_lista;
@@ -19,7 +20,7 @@ public class VotoCategoricoConPreferenza extends Voto {
 		return voto;
 	}
 
-	public int getLista() {
+	public Lista getLista() {
 		return lista;
 	}
 

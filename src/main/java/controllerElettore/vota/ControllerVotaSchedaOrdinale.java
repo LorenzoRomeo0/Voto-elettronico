@@ -56,8 +56,13 @@ public class ControllerVotaSchedaOrdinale {
 		}
 		boolean inserisci = (boolean) ss.getMessage();
 		if (inserisci) {
-			VotoOrdinale voto = new VotoOrdinale(scheda, aspiranti);
-			elettore.vota(voto);
+			ArrayList<VotoOrdinale> voto = new ArrayList<VotoOrdinale>();
+			for (int i = 0; i < aspiranti.size(); i++) {
+				voto.add(new VotoOrdinale(scheda, aspiranti.get(i), i));
+			}
+			elettore.vota(scheda, voto);
+			
+			
 			SessionSystem.getInstance().loadMain();
 		}
 	}
@@ -97,8 +102,7 @@ public class ControllerVotaSchedaOrdinale {
 		}
 		boolean inserisci = (boolean) ss.getMessage();
 		if (inserisci) {
-			VotoOrdinale voto = new VotoOrdinale(scheda, null);
-			elettore.vota(voto);
+			elettore.vota(scheda, null);
 			SessionSystem.getInstance().loadMain();
 		}
 	}

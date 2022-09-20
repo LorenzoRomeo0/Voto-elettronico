@@ -22,7 +22,9 @@ import data.TipoVotabile;
 import data.Referendum;
 import system.luoghi.Comune;
 import system.luoghi.Nazionalita;
+import system.schede.Scheda;
 import system.votabili.Votabile;
+import system.voto.VotoOrdinale;
 
 public class SistemaVotazioniDAO {
 
@@ -781,7 +783,7 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine inserisci voto categorico!!!");
 	}
 
-	public void insertVotoOrdinale(int id_scheda, ArrayList<Votabile> voto) {
+	public void insertVotoOrdinale(int id_scheda, ArrayList<VotoOrdinale> voto) {
 		System.out.println("\n---> inserisci voto ordinale...");
 		connetti();
 		StringBuilder sql = new StringBuilder(
@@ -797,11 +799,12 @@ public class SistemaVotazioniDAO {
 			if (null != voto) {
 				int j = 1;
 				for (int i = 0; i < voto.size(); i++) {
+					VotoOrdinale valore = voto.get(i);
 					statement.setInt(j, id_scheda);
 					j++;
-					statement.setInt(j, voto.get(i).getId());
+					statement.setInt(j, valore.getVoto().getId());
 					j++;
-					statement.setInt(j, i + 1);
+					statement.setInt(j, valore.getPosizione());
 					j++;
 
 				}
@@ -864,5 +867,96 @@ public class SistemaVotazioniDAO {
 
 		disconnetti();
 		System.out.println("---X fine inserisci voto categorico con preferenza!!!");
+	}
+	
+	public ArrayList<Integer> getVotiCategorici(Scheda scheda) {
+		System.out.println("\n---> prendi voti categorici...");
+		connetti();
+		String sql = "select id_candidato from voti_scheda_categorica where id_scheda = ?;";
+		ArrayList<Integer> value = new ArrayList<Integer>();
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(sql);
+			statement_tipo.setInt(1, scheda.getId());
+			ResultSet r = statement_tipo.executeQuery();
+			while (r.next()) {
+				value.add(r.getInt(1));
+			}
+		} catch (Exception e) {
+			System.out.println("---! errore voti categorici fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine voti categorici!!!");
+		return value;
+	}
+	
+	public ArrayList<Integer[]> getVotiCategoriciConPreferenze(Scheda scheda) {
+		System.out.println("\n---> prendi voti categorici con preferenza...");
+		connetti();
+		String sql = "select id_lista, id_candidato from voti_scheda_categorica_con_preferenza as vscc "
+				+ "join preferenze as p on vscc.id = p.id_voto where id_scheda = ?;";
+		ArrayList<Integer[]> values = new ArrayList<Integer[]>();
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(sql);
+			statement_tipo.setInt(1, scheda.getId());
+			ResultSet r = statement_tipo.executeQuery();
+			while (r.next()) {
+				Integer[] value = new Integer[2];
+				value[0] = r.getInt("id_lista");
+				value[1] = r.getInt("id_candidato");
+				values.add(value);
+			}
+		} catch (Exception e) {
+			System.out.println("---! errore voti categorici con preferenza fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine voti categorici con preferenza!!!");
+		return values;
+	}
+	
+	public ArrayList<Integer[]> getVotiOrdinale(Scheda scheda) {
+		System.out.println("\n---> prendi voti ordinali...");
+		connetti();
+		String sql = "select id_candidato, posizione from voti_scheda_ordinale where id_scheda = ?;";
+		ArrayList<Integer[]> values = new ArrayList<Integer[]>();
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(sql);
+			statement_tipo.setInt(1, scheda.getId());
+			ResultSet r = statement_tipo.executeQuery();
+			while (r.next()) {
+				Integer[] value = new Integer[2];
+				value[0] = r.getInt("id_candidato");
+				value[1] = r.getInt("posizione");
+				values.add(value);
+			}
+		} catch (Exception e) {
+			System.out.println("---! errore voti ordinali fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine voti ordinali!!!");
+		return values;
+	}
+	
+	public ArrayList<Integer> getVotiReferendum(Scheda scheda) {
+		System.out.println("\n---> prendi voti referendum...");
+		connetti();
+		String sql = "select voto from voti_scheda_referendum where id_scheda = ?;";
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(sql);
+			statement_tipo.setInt(1, scheda.getId());
+			ResultSet r = statement_tipo.executeQuery();
+			while (r.next()) {
+				values.add(r.getInt("voto"));
+			}
+		} catch (Exception e) {
+			System.out.println("---! errore voti referendum fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine voti referendum!!!");
+		return values;
 	}
 }

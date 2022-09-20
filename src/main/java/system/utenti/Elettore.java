@@ -1,8 +1,11 @@
 package system.utenti;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import dao.UtenteDTO;
 import system.luoghi.Comune;
+import system.schede.Scheda;
 import system.voto.Voto;
 import system.voto.VotoCategorico;
 import system.voto.VotoCategoricoConPreferenza;
@@ -44,16 +47,17 @@ public class Elettore extends Utente {
 			VotoCategorico votoCategorico = (VotoCategorico) voto;
 			dao.insertVotoCategorico(voto.getSchedaId(), votoCategorico.getVoto());
 			libretto.addScheda(voto.getScheda());
-		} else if (voto instanceof VotoOrdinale) {
-			VotoOrdinale votoOrdinale = (VotoOrdinale) voto;
-			dao.insertVotoOrdinale(votoOrdinale.getSchedaId(), votoOrdinale.getVoto());
-			libretto.addScheda(voto.getScheda());
-		} if (voto instanceof VotoCategoricoConPreferenza) {
+		} else if (voto instanceof VotoCategoricoConPreferenza) {
 			VotoCategoricoConPreferenza vccp = (VotoCategoricoConPreferenza) voto;
-			dao.insertVotaSchedaCategoricaConPreferenze(vccp.getSchedaId(), vccp.getLista(), vccp.getVoto());
+			dao.insertVotaSchedaCategoricaConPreferenze(vccp.getSchedaId(), vccp.getLista().getId(), vccp.getVoto());
 			libretto.addScheda(voto.getScheda());
 		} 
 		dao.insertSchedeCompilate(id, voto.getSchedaId());
+	}
+
+	public void vota(Scheda scheda, ArrayList<VotoOrdinale> voto) {
+		dao.insertVotoOrdinale(scheda.getId(), voto);
+		libretto.addScheda(scheda);
 	} 
 	
 }
