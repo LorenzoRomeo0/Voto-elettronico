@@ -2,6 +2,7 @@ package system.utenti;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import dao.SistemaVotazioniDAO;
 import dao.UtenteDTO;
 import data.Esito;
 import data.Referendum;
@@ -54,6 +55,151 @@ public class Impiegato extends Utente {
 	}
 
 	public String calcolaRisutato(Scheda scheda) {
+		caricaVoti(scheda);
+		if (scheda.getEsito().equals(Esito.MAGGIORANZA_QUALIFICATA)
+				|| scheda.getEsito().equals(Esito.REFERENDUM_CON_QUORUM)) {
+			return "Calcolo non supportato !!!";
+		} else if (scheda.getEsito().equals(Esito.MAGGIORANZA_SEMPLICE)) {
+			if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
+				SchedaCategorica sc = (SchedaCategorica) scheda;
+				int[] voti = calcolaSC(sc);
+				int max = maxValue(voti);
+				if (voti[max] > scheda.getVoti().size() / 2) {
+					return "Il vincitore è " + sc.getVotabile().get(max) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
+				SchedaCategoricaConPreferenze scc = (SchedaCategoricaConPreferenze) scheda;
+				int[] voti = calcolaSCCListe(scc);
+				int max = maxValue(voti);
+				if (voti[max] > scheda.getVoti().size() / 2) {
+					Lista listaVincitrice = scc.getListe().get(max);
+					int[] votiCandidati = calcolaSCCVotabili(scc, listaVincitrice);
+					int maxCandidati = maxValue(votiCandidati);
+					return "La lista vincitrice è " + listaVincitrice.getNome() + ". Il candidato con più voti è "
+							+ listaVincitrice.getCandidati().get(maxCandidati) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
+				SchedaOrdinale so = (SchedaOrdinale) scheda;
+				double[] voti = calcolaSO(so);
+				int max = maxValue(voti);
+				if (voti[max] > contaVotiOrdinali(so)
+				) {
+					return "Il vincitore è " + so.getVotabile().get(max) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else {
+				return "Errore !!!";
+			}
+		} else if (scheda.getEsito().equals(Esito.MAGGIORANZA_RELATIVA)) {
+			if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
+				SchedaCategorica sc = (SchedaCategorica) scheda;
+				int[] voti = calcolaSC(sc);
+				int max = maxValue(voti);
+				if (voti[max] > scheda.getVoti().size() - voti[max]) {
+					return "Il vincitore è " + sc.getVotabile().get(max) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
+				SchedaCategoricaConPreferenze scc = (SchedaCategoricaConPreferenze) scheda;
+				int[] voti = calcolaSCCListe(scc);
+				int max = maxValue(voti);
+				if (voti[max] > scheda.getVoti().size() - voti[max]) {
+					Lista listaVincitrice = scc.getListe().get(max);
+					int[] votiCandidati = calcolaSCCVotabili(scc, listaVincitrice);
+					int maxCandidati = maxValue(votiCandidati);
+					return "La lista vincitrice è " + listaVincitrice.getNome() + ". Il candidato con più voti è "
+							+ listaVincitrice.getCandidati().get(maxCandidati) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
+				SchedaOrdinale so = (SchedaOrdinale) scheda;
+				double[] voti = calcolaSO(so);
+				int max = maxValue(voti);
+				double sommAltri = 0;
+				for (int i = 0; i < voti.length; i++) {
+					if (i != max) {
+						sommAltri += voti[i];
+					}
+				}
+				if (voti[max] > sommAltri) {
+					return "Il vincitore è " + so.getVotabile().get(max) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else {
+				return "Errore !!!";
+			}
+		} else if (scheda.getEsito().equals(Esito.MAGGIORANZA_ASSOLUTA)) {
+			int userN = SistemaVotazioniDAO.getInstance().contaUtenti();
+			if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
+				SchedaCategorica sc = (SchedaCategorica) scheda;
+				int[] voti = calcolaSC(sc);
+				int max = maxValue(voti);
+				if (voti[max] > (userN / 2) + 1) {
+					return "Il vincitore è " + sc.getVotabile().get(max) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
+				SchedaCategoricaConPreferenze scc = (SchedaCategoricaConPreferenze) scheda;
+				int[] voti = calcolaSCCListe(scc);
+				int max = maxValue(voti);
+				if (voti[max] > (userN / 2) + 1) {
+					Lista listaVincitrice = scc.getListe().get(max);
+					int[] votiCandidati = calcolaSCCVotabili(scc, listaVincitrice);
+					int maxCandidati = maxValue(votiCandidati);
+					return "La lista vincitrice è " + listaVincitrice.getNome() + ". Il candidato con più voti è "
+							+ listaVincitrice.getCandidati().get(maxCandidati) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
+				SchedaOrdinale so = (SchedaOrdinale) scheda;
+				double[] voti = calcolaSO(so);
+				int max = maxValue(voti);
+				if (voti[max] > (userN / 2) + 1) {
+					return "Il vincitore è " + so.getVotabile().get(max) + ".";
+				} else {
+					return "Non ci sono Vincitori";
+				}
+			} else {
+				return "Errore !!!";
+			}
+		} else if (scheda.getEsito().equals(Esito.REFERENDUM_SENZA_QUORUM)) {
+			if (scheda.getTipoScheda().equals(TipoScheda.REFERENDUM)) {
+				int fav = 0;
+				int nfav = 0;
+				for (Voto v : scheda.getVoti()) {
+					VotoReferendum vr = (VotoReferendum) v;
+					if (vr.getValue().equals(Referendum.FAVOREVOLE)) {
+						fav++;
+					} else if (vr.getValue().equals(Referendum.NON_FAVOREVOLE)) {
+						nfav++;
+					}
+				}
+				if (fav > nfav) {
+					return "Ha vinto favorevole!";
+				} else if (fav == nfav) {
+					return "è stato un pareggio.";
+				} else {
+					return "Ha vinto non favorevole!";
+				}
+			} else {
+				return "Errore !!!";
+			}
+		} else {
+			return "Errore !!!";
+		}
+	}
+
+	private void caricaVoti(Scheda scheda) {
 		if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
 			if (null != scheda.getVoti()) {
 				SchedaCategorica sc = (SchedaCategorica) scheda;
@@ -74,52 +220,101 @@ public class Impiegato extends Utente {
 				SchedaReferendum sr = (SchedaReferendum) scheda;
 				scheda.setVoti(datiVotiReferendum(sr, dao.getVotiReferendum(scheda)));
 			}
-		} else {
-			return "Errore !!!";
 		}
+	}
 
-		if (scheda.getEsito().equals(Esito.MAGGIORANZA_QUALIFICATA)
-				|| scheda.getEsito().equals(Esito.REFERENDUM_CON_QUORUM)) {
-			return "Calcolo non supportato !!!";
-		} else if (scheda.getEsito().equals(Esito.MAGGIORANZA_SEMPLICE)) {
-			if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
-
-			} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
-
-			} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
-
-			} else {
-				return "Errore !!!";
+	private int[] calcolaSC(SchedaCategorica sc) {
+		int[] calcolo = new int[sc.getVotabile().size()];
+		for (Voto v : sc.getVoti()) {
+			VotoCategorico vc = (VotoCategorico) v;
+			int idVoto = vc.getVoto().getId();
+			for (int i = 0; i < sc.getVotabile().size(); i++) {
+				int idVotabile = sc.getVotabile().get(i).getId();
+				if (idVoto == idVotabile) {
+					calcolo[i]++;
+					break;
+				}
 			}
-		} else if (scheda.getEsito().equals(Esito.MAGGIORANZA_RELATIVA)) {
-			if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
-
-			} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
-
-			} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
-
-			} else {
-				return "Errore !!!";
-			}
-		} else if (scheda.getEsito().equals(Esito.MAGGIORANZA_ASSOLUTA)) {
-			if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
-
-			} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
-
-			} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
-
-			} else {
-				return "Errore !!!";
-			}
-		} else if (scheda.getEsito().equals(Esito.REFERENDUM_SENZA_QUORUM)) {
-			if (scheda.getTipoScheda().equals(TipoScheda.REFERENDUM)) {
-
-			} else {
-				return "Errore !!!";
-			}
-		} else {
-			return "Errore !!!";
 		}
+		return calcolo;
+	}
+
+	private int[] calcolaSCCListe(SchedaCategoricaConPreferenze scc) {
+		int[] calcolo = new int[scc.getListe().size()];
+		for (Voto v : scc.getVoti()) {
+			VotoCategoricoConPreferenza vc = (VotoCategoricoConPreferenza) v;
+			int idListaVoto = vc.getLista().getId();
+			for (int i = 0; i < scc.getListe().size(); i++) {
+				int idListaScheda = scc.getListe().get(i).getId();
+				if (idListaVoto == idListaScheda) {
+					calcolo[i]++;
+					break;
+				}
+			}
+		}
+		return calcolo;
+	}
+
+	private int[] calcolaSCCVotabili(SchedaCategoricaConPreferenze scc, Lista l) {
+		ArrayList<Votabile> votabili = l.getCandidati();
+		int[] calcolo = new int[votabili.size()];
+		for (Voto v : scc.getVoti()) {
+			VotoCategoricoConPreferenza vc = (VotoCategoricoConPreferenza) v;
+			int idListaVoto = vc.getLista().getId();
+			if (idListaVoto == l.getId()) {
+				ArrayList<Votabile> votabiliVoto = vc.getVoto();
+				for (Votabile vt : votabiliVoto) {
+					for (int i = 0; i < votabili.size(); i++) {
+						int idVotabile = votabili.get(i).getId();
+						if (vt.getId() == idVotabile) {
+							calcolo[i]++;
+							break;
+						}
+					}
+				}
+			}
+		}
+		return calcolo;
+	}
+
+	private double[] calcolaSO(SchedaOrdinale so) {
+		double[] calcolo = new double[so.getVotabile().size()];
+		for (Voto v : so.getVoti()) {
+			VotoOrdinale vc = (VotoOrdinale) v;
+			int idVoto = vc.getVoto().getId();
+			for (int i = 0; i < so.getVotabile().size(); i++) {
+				int idVotabile = so.getVotabile().get(i).getId();
+				if (idVoto == idVotabile) {
+					calcolo[i] += (1 / vc.getPosizione());
+					break;
+				}
+			}
+		}
+		return calcolo;
+	}
+
+	private int maxValue(int[] array) {
+		int maxValue = array[0];
+		int maxindex = 0;
+		for (int i = 1; i < array.length; i++) {
+			if (maxValue < array[i]) {
+				maxindex = i;
+				maxValue = array[i];
+			}
+		}
+		return maxindex;
+	}
+
+	private int maxValue(double[] array) {
+		double maxValue = array[0];
+		int maxindex = 0;
+		for (int i = 1; i < array.length; i++) {
+			if (maxValue < array[i]) {
+				maxindex = i;
+				maxValue = array[i];
+			}
+		}
+		return maxindex;
 	}
 
 	private ArrayList<Voto> datiVotiCategorici(SchedaCategorica scheda, ArrayList<Integer> voti) {
@@ -183,5 +378,16 @@ public class Impiegato extends Utente {
 			datiVoti.add(new VotoReferendum(r, scheda));
 		}
 		return datiVoti;
+	}
+
+	private int contaVotiOrdinali(SchedaOrdinale scheda) {
+		int votiN = 0;
+		for (Voto voto : scheda.getVoti()) {
+			VotoOrdinale vo = (VotoOrdinale) voto;
+			if (vo.getPosizione() == null || vo.getPosizione() == 1) {
+				votiN++;
+			}
+		}
+		return votiN;
 	}
 }

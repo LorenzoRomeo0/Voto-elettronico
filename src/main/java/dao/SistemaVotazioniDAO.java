@@ -959,4 +959,25 @@ public class SistemaVotazioniDAO {
 		System.out.println("---X fine voti referendum!!!");
 		return values;
 	}
+	
+	public int contaUtenti() {
+		System.out.println("\n---> prendi numero utenti...");
+		connetti();
+		String sql = "select count(id) as c from utenti";
+		Integer count = null;
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(sql);
+			ResultSet r = statement_tipo.executeQuery();
+			if (r.next()) {
+				count = Integer.valueOf(r.getInt(0));
+			}
+		} catch (Exception e) {
+			System.out.println("---! errore numero utenti fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine numero utenti!!!");
+		return count;
+		
+	}
 }

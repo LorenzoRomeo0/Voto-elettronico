@@ -22,7 +22,7 @@ public class VotoOrdinale extends Voto {
 		this.voto = voto;
 	}
 	
-	public int getPosizione() {
+	public Integer getPosizione() {
 		return posizione;
 	}
 	
