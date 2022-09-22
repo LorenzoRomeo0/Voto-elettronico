@@ -10,7 +10,6 @@ import data.Stato;
 import data.TipoScheda;
 import data.TipoVotabile;
 import system.luoghi.Comune;
-import system.luoghi.Nazionalita;
 import system.schede.Scheda;
 import system.schede.SchedaCategorica;
 import system.schede.SchedaCategoricaConPreferenze;
@@ -26,13 +25,13 @@ import system.voto.VotoReferendum;
 
 public class Impiegato extends Utente {
 
-	public Impiegato(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, Nazionalita nazionalita,
+	public Impiegato(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, String nazionalita,
 			String codiceFiscale, String tipo) {
 		super(id, nome, cognome, dataDinascita, comune, nazionalita, codiceFiscale, tipo);
 	}
 
-	public Impiegato(UtenteDTO utente, Comune residenza, Nazionalita nazionalita) {
-		super(utente, residenza, nazionalita);
+	public Impiegato(UtenteDTO utente, Comune residenza) {
+		super(utente, residenza);
 	}
 
 	public void creaSchedaCategorica(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, TipoVotabile tipo,
@@ -52,7 +51,6 @@ public class Impiegato extends Utente {
 
 	public void creaSchedaReferendum(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, String nome,
 			String referendum) {
-		
 		dao.insertSchedaReferendum(avvio, termine, this.id, stato, esito, nome, referendum);
 	}
 
@@ -203,22 +201,23 @@ public class Impiegato extends Utente {
 
 	private void caricaVoti(Scheda scheda) {
 		if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
-			if (null != scheda.getVoti()) {
+			if (null == scheda.getVoti()) {
 				SchedaCategorica sc = (SchedaCategorica) scheda;
 				scheda.setVoti(datiVotiCategorici(sc, dao.getVotiCategorici(scheda)));
 			}
 		} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
-			if (null != scheda.getVoti()) {
+			if (null == scheda.getVoti()) {
 				SchedaCategoricaConPreferenze scc = (SchedaCategoricaConPreferenze) scheda;
 				scheda.setVoti(datiVotiCategoriciConPreferenze(scc, dao.getVotiCategoriciConPreferenze(scheda)));
 			}
 		} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
-			if (null != scheda.getVoti()) {
+			if (null == scheda.getVoti()) {
 				SchedaOrdinale scc = (SchedaOrdinale) scheda;
 				scheda.setVoti(datiVotiOrdinali(scc, dao.getVotiOrdinale(scheda)));
 			}
 		} else if (scheda.getTipoScheda().equals(TipoScheda.REFERENDUM)) {
-			if (null != scheda.getVoti()) {
+			System.out.println("inside referendum --");
+			if (null == scheda.getVoti()) {
 				SchedaReferendum sr = (SchedaReferendum) scheda;
 				scheda.setVoti(datiVotiReferendum(sr, dao.getVotiReferendum(scheda)));
 			}
@@ -287,7 +286,7 @@ public class Impiegato extends Utente {
 			for (int i = 0; i < so.getVotabile().size(); i++) {
 				int idVotabile = so.getVotabile().get(i).getId();
 				if (idVoto == idVotabile) {
-					calcolo[i] += (1 / vc.getPosizione());
+					calcolo[i] += (1 / (vc.getPosizione()+1));
 					break;
 				}
 			}

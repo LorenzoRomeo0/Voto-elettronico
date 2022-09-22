@@ -10,7 +10,6 @@ import data.TipoUtente;
 import dao.SistemaVotazioniDAO;
 import system.SessionSystem;
 import system.luoghi.Comune;
-import system.luoghi.Nazionalita;
 import system.utenti.Utente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,7 +65,6 @@ public class Controller_login {
 			txt_error.setVisible(true);
 		} else {
 			Comune residenza = sessionSystem.getComune(dati.getResidenza());
-			Nazionalita nazionalita = sessionSystem.getNazionalita(dati.getNazionalità());
 			if (null == residenza) {
 				txt_error.setText("Errore con il caricamento dati!!!");
 				txt_error.setVisible(true);
@@ -74,10 +72,10 @@ public class Controller_login {
 				TipoUtente t = TipoUtente.valueOf(dati.getTipo());
 				Utente u = null;
 				if(t.equals(TipoUtente.IMPIEGATO))
-					u = Utente.makeUtente(dati, residenza, nazionalita);
+					u = Utente.makeUtente(dati, residenza);
 				else {
 					ArrayList<Integer> compilate = dao.getSchedeCompilate(dati.getId());
-					u = Utente.makeUtente(dati, residenza, nazionalita, sessionSystem.getSchedeCompilate(compilate));
+					u = Utente.makeUtente(dati, residenza, sessionSystem.getSchedeCompilate(compilate));
 				}
 				sessionSystem.setUtente(u);
 				txt_error.setVisible(false);

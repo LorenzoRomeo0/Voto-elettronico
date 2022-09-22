@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import dao.UtenteDTO;
 import system.luoghi.Comune;
-import system.luoghi.Nazionalita;
 import system.schede.Scheda;
 import system.voto.Voto;
 import system.voto.VotoCategorico;
@@ -17,14 +16,14 @@ public class Elettore extends Utente {
 	
 	private Libretto libretto;
 
-	public Elettore(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, Nazionalita nazionalita,
+	public Elettore(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, String nazionalita,
 			String codiceFiscale, String tipo, Libretto libretto) {
 		super(id, nome, cognome, dataDinascita, comune, nazionalita, codiceFiscale, tipo);
 		this.libretto = libretto;
 	}
 	
-	public Elettore(UtenteDTO utente, Comune residenza, Nazionalita nazionalita, Libretto libretto) {
-		super(utente, residenza, nazionalita);
+	public Elettore(UtenteDTO utente, Comune residenza, Libretto libretto) {
+		super(utente, residenza);
 		this.libretto = libretto;
 	}
 	

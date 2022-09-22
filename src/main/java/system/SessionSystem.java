@@ -81,15 +81,6 @@ public class SessionSystem {
 		return null;
 	}
 
-	public Nazionalita getNazionalita(int id) {
-		for (Nazionalita n : nazionalita) {
-			if (n.getId() == id) {
-				return n;
-			}
-		}
-		return null;
-	}
-
 	public static SessionSystem getInstance() {
 		if (null == session) {
 			session = new SessionSystem();
@@ -181,12 +172,12 @@ public class SessionSystem {
 		ArrayList<Scheda> schede = new ArrayList<Scheda>();
 
 		for (SchedaDTO scheda_db : schede_db) {
-			System.out.println(scheda_db);
 			try {
 				Scheda nuova = null;
 				String tipo_string = null;
 				int id_scheda = scheda_db.getId();
 				TipoScheda tipo = TipoScheda.valueOf(scheda_db.getTipoScheda());
+				System.out.println("++++++++++++NULLLE session tipo: "+ tipo + " ---- id:" + id_scheda +" ");
 				if (tipo.equals(TipoScheda.REFERENDUM)) {
 					String referendum = dao.getReferendum(id_scheda);
 					if (null != referendum) {
@@ -194,6 +185,7 @@ public class SessionSystem {
 					}
 				} else if (tipo.equals(TipoScheda.CATEGORICA)) {
 					tipo_string = dao.getTipoCandidatiSchedaCategorica(id_scheda);
+					System.out.println("++++++++++++NULLLE session "+ tipo_string + " ---- id:" + id_scheda +" ");
 					ArrayList<Votabile> can2 = loadCandidatiCategorica(id_scheda, tipo_string);
 					nuova = SchedaFactory.makeSchedaCategorico(scheda_db, can2);
 				} else if (tipo.equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
@@ -201,11 +193,10 @@ public class SessionSystem {
 					nuova = SchedaFactory.makeSchedaCategoricoPreferenze(scheda_db, can3);
 				} else if (tipo.equals(TipoScheda.ORDINALE)) {
 					tipo_string = dao.getTipoCandidatiSchedaOrdinale(id_scheda);
-					System.out.println(id_scheda);
 					ArrayList<Votabile> can1 = loadCandidatiOrdinale(id_scheda, tipo_string);
 					nuova = SchedaFactory.makeSchedaOrdinale(scheda_db, can1);
 				} else {
-					throw new Exception("dfhdjkfhsjhfjkdhsjkhf");
+					throw new Exception();
 				}
 				schede.add(nuova);
 			} catch (Exception e) {
@@ -234,6 +225,7 @@ public class SessionSystem {
 
 	private ArrayList<Votabile> loadCandidatiCategorica(int id_scheda, String tipoString) throws Exception {
 		SistemaVotazioniDAO dao = SistemaVotazioniDAO.getInstance();
+		System.out.println("++++++++++++NULLLE "+ tipoString + " ----");
 		TipoVotabile tipo = TipoVotabile.valueOf(tipoString);
 		ArrayList<Integer> id_candidati = dao.getAspiranti(id_scheda);
 		return loadCandidati(tipo, id_candidati);

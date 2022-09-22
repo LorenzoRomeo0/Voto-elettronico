@@ -1,0 +1,4 @@
+digraph domain {
+  edge [ fontsize = 11 ];
+  node [ shape=record ];
+}

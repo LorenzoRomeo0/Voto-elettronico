@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import system.SessionSystem;
 import system.schede.Scheda;
+import system.utenti.Impiegato;
 
 public class ControllerEsiti {
 
@@ -35,11 +36,15 @@ public class ControllerEsiti {
 
     @FXML
     void calcola_esito(ActionEvent event) {
-    	
+    	Impiegato imp = (Impiegato) SessionSystem.getInstance().getUtente();
+    	Scheda sc = lv_schede.getSelectionModel().getSelectedItem();
+    	String res = imp.calcolaRisutato(sc);
+    	txt_error.setText(res);
     }
 
     @FXML
     void ricarica(ActionEvent event) {
+    	System.out.println("ricarica!");
     	SessionSystem ss = SessionSystem.getInstance();
 		ArrayList<Scheda> values = ss.getSchedeConcluse();
 		if (null != values) {

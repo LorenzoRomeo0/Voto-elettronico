@@ -5,5 +5,5 @@ public enum TipoVotabile {
 	
 	final private int id;
 	private  TipoVotabile(int i) {this.id = i;}
-	final public int getId() {return id;}
+	final public int id() {return id;}
 }

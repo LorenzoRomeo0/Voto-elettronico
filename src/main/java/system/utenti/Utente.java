@@ -7,7 +7,6 @@ import dao.SistemaVotazioniDAO;
 import dao.UtenteDTO;
 import data.TipoUtente;
 import system.luoghi.Comune;
-import system.luoghi.Nazionalita;
 import system.schede.Scheda;
 
 public abstract class Utente {
@@ -16,13 +15,13 @@ public abstract class Utente {
 	protected String cognome;
 	protected LocalDate dataDinascita;
 	protected Comune residenza;
-	protected Nazionalita nazionalita;
+	protected String nazionalita;
 	protected String codiceFiscale;
 	protected TipoUtente tipo;
 	
 	protected SistemaVotazioniDAO dao;
 	
-	protected Utente(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, Nazionalita nazionalita,
+	protected Utente(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, String nazionalita,
 			String codiceFiscale, String tipo) {
 		super();
 		this.id = id;
@@ -36,14 +35,14 @@ public abstract class Utente {
 		this.dao = SistemaVotazioniDAO.getInstance();
 	}
 	
-	protected Utente(UtenteDTO utente, Comune residenza, Nazionalita nazionalita) {
+	protected Utente(UtenteDTO utente, Comune residenza) {
 		super();
 		this.id = utente.getId();
 		this.nome = utente.getNome();
 		this.cognome = utente.getCognome();
 		this.dataDinascita = utente.getDataDiNascita();
 		this.residenza = residenza;
-		this.nazionalita = nazionalita;
+		//this.nazionalita = utente.getNazionalità();
 		this.codiceFiscale = utente.getCodiceFiscale();
 		this.tipo = TipoUtente.valueOf(utente.getTipo().toUpperCase());
 		this.dao = SistemaVotazioniDAO.getInstance();
@@ -80,7 +79,7 @@ public abstract class Utente {
 		return residenza;
 	}
 
-	public Nazionalita getNazionalita() {
+	public String getNazionalita() {
 		return nazionalita;
 	}
 
@@ -96,11 +95,11 @@ public abstract class Utente {
 		this.tipo = tipo;
 	}
 
-	public static Impiegato makeUtente(UtenteDTO utente, Comune residenza, Nazionalita nazionalita) {
-		return new Impiegato(utente, residenza, nazionalita); 
+	public static Impiegato makeUtente(UtenteDTO utente, Comune residenza) {
+		return new Impiegato(utente, residenza); 
 	}
 	
-	public static Elettore makeUtente(UtenteDTO utente, Comune residenza, Nazionalita nazionalita, ArrayList<Scheda> compilate) {
-		return new Elettore(utente, residenza, nazionalita, new Libretto(compilate));
+	public static Elettore makeUtente(UtenteDTO utente, Comune residenza, ArrayList<Scheda> compilate) {
+		return new Elettore(utente, residenza, new Libretto(compilate));
 	}
 }

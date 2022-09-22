@@ -297,7 +297,7 @@ public class ControllerCreaUtente {
 				setDisable(empty || date.compareTo(maggiorenne) > 0);
 			}
 		});
-		dpk_nascita.setValue(maggiorenne.minusDays(1));
+		dpk_nascita.setValue(maggiorenne.plusDays(1));
 
 		nazionalita_filter = new StringBuilder();
 		regione_filter = new StringBuilder();
