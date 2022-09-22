@@ -83,6 +83,7 @@ public class ControllerCreaSchedaReferendum {
 			Esito esito = (Esito) cb_esito.getValue().getObj();
 			
 			Impiegato imp = (Impiegato) SessionSystem.getInstance().getUtente();
+			System.out.println(imp);
 			if (null != imp) {
 				imp.creaSchedaReferendum(avvio, termine, stato, esito, titolo, referendum);
 				txt_error.setTextFill(Paint.valueOf("black"));

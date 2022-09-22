@@ -10,6 +10,7 @@ import data.Stato;
 import data.TipoScheda;
 import data.TipoVotabile;
 import system.luoghi.Comune;
+import system.luoghi.Nazionalita;
 import system.schede.Scheda;
 import system.schede.SchedaCategorica;
 import system.schede.SchedaCategoricaConPreferenze;
@@ -25,13 +26,13 @@ import system.voto.VotoReferendum;
 
 public class Impiegato extends Utente {
 
-	public Impiegato(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, String nazionalita,
+	public Impiegato(int id, String nome, String cognome, LocalDate dataDinascita, Comune comune, Nazionalita nazionalita,
 			String codiceFiscale, String tipo) {
 		super(id, nome, cognome, dataDinascita, comune, nazionalita, codiceFiscale, tipo);
 	}
 
-	public Impiegato(UtenteDTO utente, Comune residenza) {
-		super(utente, residenza);
+	public Impiegato(UtenteDTO utente, Comune residenza, Nazionalita nazionalita) {
+		super(utente, residenza, nazionalita);
 	}
 
 	public void creaSchedaCategorica(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, TipoVotabile tipo,
@@ -51,6 +52,7 @@ public class Impiegato extends Utente {
 
 	public void creaSchedaReferendum(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, String nome,
 			String referendum) {
+		
 		dao.insertSchedaReferendum(avvio, termine, this.id, stato, esito, nome, referendum);
 	}
 

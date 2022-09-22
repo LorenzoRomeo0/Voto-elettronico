@@ -81,6 +81,15 @@ public class SessionSystem {
 		return null;
 	}
 
+	public Nazionalita getNazionalita(int id) {
+		for (Nazionalita n : nazionalita) {
+			if (n.getId() == id) {
+				return n;
+			}
+		}
+		return null;
+	}
+
 	public static SessionSystem getInstance() {
 		if (null == session) {
 			session = new SessionSystem();
@@ -172,6 +181,7 @@ public class SessionSystem {
 		ArrayList<Scheda> schede = new ArrayList<Scheda>();
 
 		for (SchedaDTO scheda_db : schede_db) {
+			System.out.println(scheda_db);
 			try {
 				Scheda nuova = null;
 				String tipo_string = null;
@@ -191,10 +201,11 @@ public class SessionSystem {
 					nuova = SchedaFactory.makeSchedaCategoricoPreferenze(scheda_db, can3);
 				} else if (tipo.equals(TipoScheda.ORDINALE)) {
 					tipo_string = dao.getTipoCandidatiSchedaOrdinale(id_scheda);
+					System.out.println(id_scheda);
 					ArrayList<Votabile> can1 = loadCandidatiOrdinale(id_scheda, tipo_string);
 					nuova = SchedaFactory.makeSchedaOrdinale(scheda_db, can1);
 				} else {
-					throw new Exception();
+					throw new Exception("dfhdjkfhsjhfjkdhsjkhf");
 				}
 				schede.add(nuova);
 			} catch (Exception e) {

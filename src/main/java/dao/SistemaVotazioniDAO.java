@@ -1,5 +1,8 @@
 package dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -178,11 +181,9 @@ public class SistemaVotazioniDAO {
 
 	private Integer insertScheda(LocalDate avvio, LocalDate termine, int creatore, int stato, int esito, String nome,
 			int tipologia) {
-		System.out.println(avvio + " - " + termine + " - " + creatore + " - " + stato + " - " + esito + " - " + nome
-				+ " - " + tipologia);
 		System.out.println("\n---> inserisci scheda...");
 		connetti();
-		String sql = "insert ignore into schede(dataAvvio, dataTermine, creatore, stato, esito, tipo, nome) "
+		String sql = "insert into schede(dataAvvio, dataTermine, creatore, stato, esito, tipo, nome) "
 				+ "values (STR_TO_DATE(?, '%d/%m/%Y'), STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?, ?, ?);";
 		Integer key = null;
 		try {
@@ -194,10 +195,12 @@ public class SistemaVotazioniDAO {
 			statement.setInt(5, esito);
 			statement.setInt(6, tipologia);
 			statement.setString(7, nome);
+			System.out.println(statement);
 			statement.executeUpdate();
 			ResultSet rs = statement.getGeneratedKeys();
 			if (rs.next()) {
 				key = Integer.valueOf(rs.getInt(1));
+				System.out.println(key);
 			}
 		} catch (Exception e) {
 			System.out.println("---! inserisci scheda fallito.");
@@ -398,11 +401,13 @@ public class SistemaVotazioniDAO {
 				+ "join tipi_votabile as tv on tv.id = so.tipo_candidati where so.id = ? limit 1";
 		String value = null;
 		try {
-			PreparedStatement statement_tipo = conn.prepareStatement(sql);
-			statement_tipo.setInt(1, idScheda);
-			ResultSet r = statement_tipo.executeQuery();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, idScheda);
+			ResultSet r = statement.executeQuery();
+			System.out.println(statement);
 			if (r.next()) {
 				value = r.getString(1);
+				System.out.println(value);
 			}
 		} catch (Exception e) {
 			System.out.println("---! errore prendi tipo candidati scheda ordinale fallito.");
@@ -459,14 +464,15 @@ public class SistemaVotazioniDAO {
 			TipoVotabile tipo, String nome, ArrayList<Votabile> aspiranti) {
 		System.out.println("\n---> inserisci scheda categorica...");
 		Integer id = insertScheda(avvio, termine, creatore, stato.id(), esito.id(), nome, TipoScheda.CATEGORICA.id());
+		System.out.println(id);
 		connetti();
-		String sql_scheda = "insert ignore into schede_categoriche (id, tipo_candidati) values (?, ?);";
+		String sql_scheda = "insert into schede_categoriche (id, tipo_candidati) values (?, ?);";
 		StringBuilder sql_aspiranti = new StringBuilder();
-		sql_aspiranti.append("insert ignore into aspiranti (id_scheda, id_candidato) values ");
+		sql_aspiranti.append("insert into aspiranti (id_scheda, id_candidato) values ");
 		try {
 			PreparedStatement statement_scheda = conn.prepareStatement(sql_scheda);
 			statement_scheda.setInt(1, id);
-			statement_scheda.setInt(2, tipo.id());
+			statement_scheda.setInt(2, tipo.getId());
 			statement_scheda.executeUpdate();
 
 			for (int i = 0; i < aspiranti.size(); i++) {
@@ -494,17 +500,15 @@ public class SistemaVotazioniDAO {
 	public void insertSchedaOrdinale(LocalDate avvio, LocalDate termine, int creatore, Stato stato, Esito esito,
 			TipoVotabile tipo, String nome, ArrayList<Votabile> partecipanti) {
 		System.out.println("\n---> inserisci scheda ordinale...");
-		System.out.println(avvio + " - " + termine + " - " + creatore + " - " + stato + " - " + esito + " - " + tipo
-				+ " - " + nome + " - " + partecipanti);
 		int id = insertScheda(avvio, termine, creatore, stato.id(), esito.id(), nome, TipoScheda.ORDINALE.id());
 		connetti();
-		String sql_scheda = "insert ignore into schede_ordinali (id, tipo_candidati) values (?, ?);";
+		String sql_scheda = "insert into schede_ordinali (id, tipo_candidati) values (?, ?);";
 		StringBuilder sql_concorrenti = new StringBuilder();
 		sql_concorrenti.append("insert ignore into concorrenti (id_scheda, id_candidato) values ");
 		try {
 			PreparedStatement statement_scheda = conn.prepareStatement(sql_scheda);
 			statement_scheda.setInt(1, id);
-			statement_scheda.setInt(2, tipo.id());
+			statement_scheda.setInt(2, tipo.getId());
 			statement_scheda.executeUpdate();
 
 			for (int i = 0; i < partecipanti.size(); i++) {
@@ -978,6 +982,72 @@ public class SistemaVotazioniDAO {
 		disconnetti();
 		System.out.println("---X fine numero utenti!!!");
 		return count;
-		
+	}
+	
+	public void insertPartito(String nome, String img_path) {
+		System.out.println("\n---> inserisci partito...");
+		connetti();
+		String sql = "insert into partiti (id, nome, logo) values (?, ?, ?);";
+		try {
+			InputStream img = new FileInputStream(img_path);
+			PreparedStatement statement = conn.prepareStatement(sql);
+			Integer id = insertVotabile(TipoVotabile.PARTITO.getId());
+			System.out.println();
+			statement.setInt(1, id);
+			statement.setString(2, nome);
+			statement.setBlob(3, img);
+			statement.executeUpdate();
+		} catch (FileNotFoundException e) {
+			System.out.println("---! inserisci partito impossibile caricare immagine.");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("---! inserisci partito fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci partito!!!");
+	}
+	
+	private Integer insertVotabile(int tipo_votabile) {
+		System.out.println("\n---> inserisci votabili...");
+		connetti();
+		String sql = "insert into votabili (tipo) values (?);";
+		Integer key = null;
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, tipo_votabile);
+			statement.executeUpdate();
+			ResultSet rs = statement.getGeneratedKeys();
+			if (rs.next()) {
+				key = Integer.valueOf(rs.getInt(1));
+			}
+		} catch (Exception e) {
+			System.out.println("---! inserisci votabili.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci votabili!!!");
+		return key;
+	}
+	
+	public void insertCandidato(int partito, int sesso, String cognome, String nome) {
+		System.out.println("\n---> inserisci candidato...");
+		connetti();
+		String sql = "insert ignore into candidati (id, sostiene, sesso, cognome, nome) values (?,?,?,?,?);";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			Integer id = insertVotabile(TipoVotabile.CANDIDATO.getId());
+			statement.setInt(1, id);
+			statement.setInt(2, partito);
+			statement.setInt(3, sesso);
+			statement.setString(4, cognome);
+			statement.setString(5, nome);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("---! inserisci candidato fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fine inserisci candidato!!!");
 	}
 }
