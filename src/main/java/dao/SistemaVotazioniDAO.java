@@ -983,4 +983,180 @@ public class SistemaVotazioniDAO {
 		return count;
 		
 	}
+	
+	public boolean modificaScheda(int id, int stato) {
+		System.out.println("---X inizio aggiornamento stato!!! "+id+ " stato: "+ stato);
+		connetti();
+
+		String sql = "UPDATE schede SET stato = ? WHERE id = ?;";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, stato);
+			statement.setInt(2, id);
+			statement.execute();
+			
+		}catch (Exception e) {
+			System.out.println("---! errore aggiornamento stato scheda.");
+			e.printStackTrace();
+			return false;
+		}
+		disconnetti();
+		System.out.println("---X fine aggiornamento stato!!!");
+		return true;
+	}
+
+	public boolean eliminaOrdinale(int id) {
+		String q1 = "DELETE FROM voti_scheda_ordinale WHERE (id_scheda = ?);";
+		String q2 = "DELETE FROM concorrenti WHERE (id_scheda = ?);";
+		String q3 = "DELETE FROM schede_ordinali WHERE (id = ?);";
+		String q4 = "DELETE FROM schede WHERE (id = ?);";
+		
+		connetti();
+		
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(q1);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			
+			System.out.println("1");
+			statement_tipo = conn.prepareStatement(q2);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			System.out.println("2");
+			statement_tipo = conn.prepareStatement(q3);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			System.out.println("3");
+			statement_tipo = conn.prepareStatement(q4);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			System.out.println("3");
+			
+		} catch (Exception e) {
+			System.out.println("---! errore voti referendum fallito.");
+			e.printStackTrace();
+			return false;
+		}
+		disconnetti();
+		
+		return true;
+	}
+
+	public boolean eliminaCategoricaConPreferenze(int id) {
+		String q1 = "DELETE FROM voti_scheda_categorica_con_preferenza WHERE (id_scheda = ?);";
+		String q2 = "DELETE FROM partecipanti WHERE (id_scheda = ?);";
+		String q3 = "DELETE FROM schede_categoriche_con_preferenze WHERE (id = ?);";
+		String q4 = "DELETE FROM schede WHERE (id = ?);";
+		
+		connetti();
+		
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(q1);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			
+			System.out.println("1");
+			statement_tipo = conn.prepareStatement(q2);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			System.out.println("2");
+			statement_tipo = conn.prepareStatement(q3);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			System.out.println("3");
+			statement_tipo = conn.prepareStatement(q4);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			System.out.println("3");
+			
+		} catch (Exception e) {
+			System.out.println("---! errore voti referendum fallito.");
+			e.printStackTrace();
+			return false;
+		}
+		disconnetti();
+		
+		return true;
+	}
+	
+	public boolean eliminaCategorica(int id) {
+		String q1 = "DELETE FROM voti_scheda_categorica WHERE (id_scheda = ?);";
+		String q2 = "DELETE FROM aspiranti WHERE (id_scheda = ?);";
+		String q3 = "DELETE FROM schede_categoriche WHERE (id = ?);";
+		String q4 = "DELETE FROM schede WHERE (id = ?);";
+		
+		connetti();
+		
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(q1);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+
+			statement_tipo = conn.prepareStatement(q2);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+
+			statement_tipo = conn.prepareStatement(q3);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+
+			statement_tipo = conn.prepareStatement(q4);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			
+		} catch (Exception e) {
+			System.out.println("---! errore voti referendum fallito.");
+			e.printStackTrace();
+			return false;
+		}
+		disconnetti();
+		
+		return true;
+	}
+	
+	public boolean eliminaReferendum(int id) {
+		String q1 = "DELETE FROM schede_referendum WHERE (id = ?);";
+		String q2 = "DELETE FROM schede WHERE (id = ?);";
+		
+		connetti();
+		
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(q1);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			
+			statement_tipo = conn.prepareStatement(q2);
+			statement_tipo.setInt(1, id);
+			statement_tipo.execute();
+			
+			
+		} catch (Exception e) {
+			System.out.println("---! errore voti referendum fallito.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		
+		return false;
+	}
+	
+	public int getStatoScheda(int id) {
+		connetti();
+		int values = 0;
+		String q1 = "SELECT stato FROM schede WHERE id = ?";
+		try {
+			PreparedStatement statement_tipo = conn.prepareStatement(q1);
+			statement_tipo.setInt(1, id);
+			ResultSet r = statement_tipo.executeQuery();
+			while (r.next()) {
+				values = r.getInt("stato");
+			}
+		} catch (Exception e) {
+			System.out.println("---! errore get stato.");
+			e.printStackTrace();
+		}
+		disconnetti();
+		System.out.println("---X fineget stato!!!");
+		return values;
+		
+	}
 }

@@ -9,6 +9,8 @@ import data.Referendum;
 import data.Stato;
 import data.TipoScheda;
 import data.TipoVotabile;
+import logger.FileLogger;
+import system.SessionSystem;
 import system.luoghi.Comune;
 import system.schede.Scheda;
 import system.schede.SchedaCategorica;
@@ -36,25 +38,41 @@ public class Impiegato extends Utente {
 
 	public void creaSchedaCategorica(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, TipoVotabile tipo,
 			String nome, ArrayList<Votabile> aspiranti) {
+		FileLogger fl = FileLogger.getInstance();
+		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito la Scheda Categorica (Nome: \""+nome+ "\",ID: "+id+")");
 		dao.insertSchedaCategorica(avvio, termine, this.id, stato, esito, tipo, nome, aspiranti);
 	}
 
 	public void creaSchedaCategoricaConPreferenza(LocalDate avvio, LocalDate termine, Stato stato, Esito esito,
 			String nome, ArrayList<Votabile> aspiranti) {
+		FileLogger fl = FileLogger.getInstance();
+		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito la Scheda Categorica Con Preferenza (Nome: \""+nome+ "\",ID: "+id+")");
 		dao.insertSchedaCategoricaPreferenza(avvio, termine, this.id, stato, esito, nome, aspiranti);
 	}
 
 	public void creaSchedaOrdinale(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, TipoVotabile tipo,
 			String nome, ArrayList<Votabile> partecipanti) {
+		FileLogger fl = FileLogger.getInstance();
+		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito la Scheda Ordinale (Nome: \""+nome+ "\",ID: "+id+")");
+
 		dao.insertSchedaOrdinale(avvio, termine, this.id, stato, esito, tipo, nome, partecipanti);
 	}
 
 	public void creaSchedaReferendum(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, String nome,
 			String referendum) {
+		FileLogger fl = FileLogger.getInstance();
+		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito il referendum (Nome: \""+nome+ "\",ID: "+id+")");
+
 		dao.insertSchedaReferendum(avvio, termine, this.id, stato, esito, nome, referendum);
 	}
 
 	public String calcolaRisutato(Scheda scheda) {
+		FileLogger fl = FileLogger.getInstance();
+		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha calcolato il risultato della scheda (Nome: \""+scheda.getNome()+ "\",ID: "+scheda.getId()+")");
+
+		SessionSystem ss = SessionSystem.getInstance();
+		
+		
 		caricaVoti(scheda);
 		if (scheda.getEsito().equals(Esito.MAGGIORANZA_QUALIFICATA)
 				|| scheda.getEsito().equals(Esito.REFERENDUM_CON_QUORUM)) {
@@ -390,5 +408,41 @@ public class Impiegato extends Utente {
 			}
 		}
 		return votiN;
+	}
+	
+	public boolean modificaScheda(Scheda scheda, Stato stato) {
+		FileLogger fl = FileLogger.getInstance();
+		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha modificato la sessione della scheda (Nome: \""+nome+ "\", ID: "+id+")");
+
+		SistemaVotazioniDAO svd = SistemaVotazioniDAO.getInstance();
+		return svd.modificaScheda(scheda.getId(), stato.id());
+		
+		// aggiungi anche visualizza stato nei pulsanti
+	}
+	
+	public boolean eliminaScheda(Scheda scheda) {
+		FileLogger fl = FileLogger.getInstance();
+		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha modificato la sessione della scheda (Nome: \""+nome+ "\", ID: "+id+")");
+
+		SistemaVotazioniDAO svd = SistemaVotazioniDAO.getInstance();
+		
+		if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA)) {
+			svd.eliminaCategorica(scheda.getId());
+		} else if (scheda.getTipoScheda().equals(TipoScheda.CATEGORICA_CON_PREFERENZE)) {
+			svd.eliminaCategoricaConPreferenze(scheda.getId());
+		} else if (scheda.getTipoScheda().equals(TipoScheda.ORDINALE)) {
+			svd.eliminaOrdinale(scheda.getId());
+		} else if (scheda.getTipoScheda().equals(TipoScheda.REFERENDUM)) {
+			svd.eliminaReferendum(scheda.getId());
+		}
+		return true;	
+	}
+	
+	public String getStatoScheda(Scheda scheda) {
+		SistemaVotazioniDAO svd = SistemaVotazioniDAO.getInstance();
+		
+		///// QUI PLS
+		return svd.getStatoScheda(scheda.getId()));
+		//return Stato.values()
 	}
 }

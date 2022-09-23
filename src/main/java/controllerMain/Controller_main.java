@@ -81,6 +81,14 @@ public class Controller_main {
 			lst_menu.getChildren().add(pagina.caricaBottone());
 			pagina = new Pagina("Calcola esito", "/admin/esito_scheda.fxml", button_url);
 			lst_menu.getChildren().add(pagina.caricaBottone());
+			
+			
+			pagina = new Pagina("Modifica sessione", "/admin/modifica_sessione.fxml", button_url);
+			lst_menu.getChildren().add(pagina.caricaBottone());
+			pagina = new Pagina("Visualizza log", "/admin/visualizza_log.fxml", button_url);
+			lst_menu.getChildren().add(pagina.caricaBottone());
+			
+			
 		}
 		
 		if (null == scroll_menu.getSkin()) {
