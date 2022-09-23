@@ -344,6 +344,11 @@ public class SessionSystem {
 		return values;
 	}
 
+	public void updateSchede() {
+		schede.clear();
+		schede = loadSchede();
+	}
+	
 	public ArrayList<Candidato> getCandidati(String filtro) {
 		ArrayList<Candidato> values = new ArrayList<Candidato>();
 		for (Candidato candidato : candidati) {

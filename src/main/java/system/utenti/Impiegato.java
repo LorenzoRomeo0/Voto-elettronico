@@ -41,6 +41,9 @@ public class Impiegato extends Utente {
 		FileLogger fl = FileLogger.getInstance();
 		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito la Scheda Categorica (Nome: \""+nome+ "\",ID: "+id+")");
 		dao.insertSchedaCategorica(avvio, termine, this.id, stato, esito, tipo, nome, aspiranti);
+		
+		SessionSystem ss = SessionSystem.getInstance();
+		ss.updateSchede();
 	}
 
 	public void creaSchedaCategoricaConPreferenza(LocalDate avvio, LocalDate termine, Stato stato, Esito esito,
@@ -48,6 +51,9 @@ public class Impiegato extends Utente {
 		FileLogger fl = FileLogger.getInstance();
 		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito la Scheda Categorica Con Preferenza (Nome: \""+nome+ "\",ID: "+id+")");
 		dao.insertSchedaCategoricaPreferenza(avvio, termine, this.id, stato, esito, nome, aspiranti);
+		
+		SessionSystem ss = SessionSystem.getInstance();
+		ss.updateSchede();
 	}
 
 	public void creaSchedaOrdinale(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, TipoVotabile tipo,
@@ -56,6 +62,9 @@ public class Impiegato extends Utente {
 		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito la Scheda Ordinale (Nome: \""+nome+ "\",ID: "+id+")");
 
 		dao.insertSchedaOrdinale(avvio, termine, this.id, stato, esito, tipo, nome, partecipanti);
+		
+		SessionSystem ss = SessionSystem.getInstance();
+		ss.updateSchede();
 	}
 
 	public void creaSchedaReferendum(LocalDate avvio, LocalDate termine, Stato stato, Esito esito, String nome,
@@ -64,6 +73,9 @@ public class Impiegato extends Utente {
 		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha inserito il referendum (Nome: \""+nome+ "\",ID: "+id+")");
 
 		dao.insertSchedaReferendum(avvio, termine, this.id, stato, esito, nome, referendum);
+		
+		SessionSystem ss = SessionSystem.getInstance();
+		ss.updateSchede();
 	}
 
 	public String calcolaRisutato(Scheda scheda) {
@@ -415,7 +427,13 @@ public class Impiegato extends Utente {
 		fl.add("ADMIN \""+this.nome +"\" "+this.cognome + "(ID: "+this.id+") ha modificato la sessione della scheda (Nome: \""+nome+ "\", ID: "+id+")");
 
 		SistemaVotazioniDAO svd = SistemaVotazioniDAO.getInstance();
-		return svd.modificaScheda(scheda.getId(), stato.id());
+		
+		boolean res = svd.modificaScheda(scheda.getId(), stato.id());
+		
+		SessionSystem ss = SessionSystem.getInstance();
+		ss.updateSchede();
+		
+		return res;
 		
 		// aggiungi anche visualizza stato nei pulsanti
 	}
@@ -435,14 +453,14 @@ public class Impiegato extends Utente {
 		} else if (scheda.getTipoScheda().equals(TipoScheda.REFERENDUM)) {
 			svd.eliminaReferendum(scheda.getId());
 		}
+		SessionSystem ss = SessionSystem.getInstance();
+		ss.updateSchede();
 		return true;	
 	}
 	
 	public String getStatoScheda(Scheda scheda) {
 		SistemaVotazioniDAO svd = SistemaVotazioniDAO.getInstance();
-		
-		///// QUI PLS
-		return svd.getStatoScheda(scheda.getId()));
-		//return Stato.values()
+		int s = svd.getStatoScheda(scheda.getId());
+		return Stato.getById(s).toString();
 	}
 }

@@ -57,6 +57,9 @@ public class Controller_log {
 		stage.resizableProperty().addListener((observable, oldValue, newValue) -> {
 			adatta_contenuto(container_content.getWidth());
 		});
+		
+		FileLogger logger = FileLogger.getInstance();
+    	txt_log.setText(logger.retrieveAll());
         
     }
     
