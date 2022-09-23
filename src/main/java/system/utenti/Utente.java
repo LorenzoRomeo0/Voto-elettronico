@@ -25,6 +25,8 @@ public abstract class Utente {
 	 * self.tipo != null;
 	 */
 	
+	/*@invariant self.id > 0 && self.nome != null && self.nome.lenght > 0 && self.cognome != null && self.cognome.lenght > 0 && self.dataDiNascita != null && self.nazionalita != null && self.nazionalita.lenght > 0 && self.codiceFiscale != null && self.codiceFiscale.lenght = 16 && self.tipo != null @*/
+	
 	protected int id;
 	protected String nome;
 	protected String cognome;
