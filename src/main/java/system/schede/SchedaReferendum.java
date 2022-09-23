@@ -9,6 +9,19 @@ import data.TipoScheda;
 
 public class SchedaReferendum extends Scheda {
 	
+	/* context scheda inv:
+	 * self.id > 0 &&
+	 * self.nome != null &&
+	 * self.nome.lenght > 0 &&
+	 * self.dataAvvio != null &&
+	 * self.dataTermine != null &&
+	 * self.stato != null &&
+	 * self.tipoScheda != null &&
+	 * self.esito != null &&
+	 * self.referendum != null &&
+	 * self.referendum.lenght > 0;
+	 */
+	
 	private String referendum;
 	
 	public SchedaReferendum(SchedaDTO scheda, String referendum) {

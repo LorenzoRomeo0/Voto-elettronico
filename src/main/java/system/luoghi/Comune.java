@@ -14,32 +14,35 @@ public class Comune {
 		this.provincia = provincia;
 	}
 
-	public int getId() {
+	public /*@pure@*/ int getId() {
 		return id;
 	}
 
+	/*@require id != null @*/
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getNome() {
+	public /*@pure@*/ String getNome() {
 		return nome;
 	}
-
+	
+	/*@require nome != null @*/
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public Provincia getProvincia() {
+	public /*@pure@*/ Provincia getProvincia() {
 		return provincia;
 	}
-
+	
+	/*@require provincia != null @*/
 	public void setProvincia(Provincia provincia) {
 		this.provincia = provincia;
 	}
 
 	@Override
-	public String toString() {
+	public /*@ pure @*/ String toString() {
 		return nome;
 	}
 	

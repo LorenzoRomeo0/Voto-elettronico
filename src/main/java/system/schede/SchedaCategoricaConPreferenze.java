@@ -11,6 +11,18 @@ import system.votabili.Lista;
 
 public class SchedaCategoricaConPreferenze extends Scheda {
 	
+	/* context scheda inv:
+	 * self.id > 0 &&
+	 * self.nome != null &&
+	 * self.nome.lenght > 0 &&
+	 * self.dataAvvio != null &&
+	 * self.dataTermine != null &&
+	 * self.stato != null &&
+	 * self.tipoScheda != null &&
+	 * self.esito != null &&
+	 * self.liste != null;
+	 */
+	
 	private ArrayList<Lista> liste;
 	
 	public SchedaCategoricaConPreferenze(SchedaDTO scheda, ArrayList<Lista> liste) {

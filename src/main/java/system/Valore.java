@@ -13,24 +13,26 @@ public class Valore {
 		this.obj = obj;
 	}
 	
-	public String getNome() {
+	public /*@pure@*/  String getNome() {
 		return nome;
 	}
 	
+	/*@asssignable name;@*/
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
-	public Object getObj() {
+	public /*@pure@*/ Object getObj() {
 		return obj;
 	}
 	
-	public void setObj(Object obj) {
+	/*@asssignable obj;@*/
+	public /*@pure@*/void setObj(Object obj) {
 		this.obj = obj;
 	}
 
 	@Override
-	public String toString() {
+	public String /*@pure@*/ toString() {
 		return nome;
 	}
 	

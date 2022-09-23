@@ -33,6 +33,24 @@ import system.votabili.Partito;
 import system.votabili.Votabile;
 
 public class SessionSystem {
+	
+	/* context SessionSystem:
+	 * self.stage != null &&
+	 * self.content != null &&
+	 * self.utente != null &&
+	 * self.scheda != null &&
+	 * self.schede != null &&
+	 * self.partiti != null &&
+	 * self.candidati != null &&
+	 * self.liste != null &&
+	 * self.regioni != null &&
+	 * self.province != null &&
+	 * self.comuni != null &&
+	 * self.nazionalita != null &&
+	 * self.popup != null &&
+	 * self.dao != null;
+	 */
+	
 	public static final int stageMinW = 450;
 	public static final int stageMinH = 350;
 	private static SessionSystem session;
@@ -71,8 +89,9 @@ public class SessionSystem {
 		this.comuni = loadComuni();
 		this.nazionalita = convertiPaesi(dao.getAllNazionalita());
 	}
-
-	public Comune getComune(int id) {
+	
+	/*@ requires id != null && id > 0; @*/
+	public /*@ non null @*/ Comune getComune(int id) {
 		for (Comune comune : comuni) {
 			if (comune.getId() == id) {
 				return comune;
@@ -88,7 +107,7 @@ public class SessionSystem {
 		return session;
 	}
 
-	private ArrayList<Comune> loadComuni() {
+	private /*@ non null @*/ ArrayList<Comune> loadComuni() {
 		ArrayList<ComuneDTO> comuni_db = dao.getAllComune();
 		ArrayList<Comune> comuni = new ArrayList<Comune>();
 		for (ComuneDTO comune : comuni_db) {
@@ -101,8 +120,9 @@ public class SessionSystem {
 		}
 		return comuni;
 	}
-
-	private Provincia getProvincia(Integer id) throws Exception {
+	
+	/*@ requires id != null && id > 0 @*/
+	private /*@ non null @*/ Provincia getProvincia(Integer id) throws Exception {
 		if (null != id) {
 			for (Provincia provincia : province) {
 				if (provincia.getId() == id) {
@@ -113,7 +133,7 @@ public class SessionSystem {
 		throw new Exception("Errore con get provincia!!!");
 	}
 
-	private ArrayList<Provincia> loadProvince() {
+	private /*@ non null @*/ ArrayList<Provincia> loadProvince() {
 		ArrayList<ProvinciaDTO> province_db = dao.getAllProvince();
 		ArrayList<Provincia> province = new ArrayList<Provincia>();
 		for (ProvinciaDTO provincia : province_db) {
@@ -127,8 +147,9 @@ public class SessionSystem {
 		}
 		return province;
 	}
-
-	private Regione getRegione(Integer id) throws Exception {
+	
+	/*@ requires id != null && id > 0 ;@*/
+	private /*@ non null @*/ Regione getRegione(Integer id) throws Exception {
 		if (null != id) {
 			for (Regione regione : regioni) {
 				if (regione.getId() == id) {
@@ -139,7 +160,7 @@ public class SessionSystem {
 		throw new Exception("Errore con get regione!!!");
 	}
 
-	private ArrayList<Lista> loadListe() {
+	private /*@ non null @*/ ArrayList<Lista> loadListe() {
 		ArrayList<ListaDTO> liste_db = dao.getAllListe();
 		ArrayList<Lista> liste = new ArrayList<Lista>();
 		for (ListaDTO lista : liste_db) {
@@ -167,7 +188,7 @@ public class SessionSystem {
 		return liste;
 	}
 
-	private ArrayList<Scheda> loadSchede() {
+	private /*@ non null @*/ ArrayList<Scheda> loadSchede() {
 		ArrayList<SchedaDTO> schede_db = dao.getAllSchede();
 		ArrayList<Scheda> schede = new ArrayList<Scheda>();
 
@@ -207,8 +228,9 @@ public class SessionSystem {
 
 		return schede;
 	}
-
-	private ArrayList<Lista> loadListe(int id_scheda) {
+	
+	/*@ requires id_scheda != null && id_scheda > 0; @*/
+	private /*@ non null @*/ ArrayList<Lista> loadListe(int id_scheda) {
 		SistemaVotazioniDAO dao = SistemaVotazioniDAO.getInstance();
 		ArrayList<Lista> candidati = new ArrayList<Lista>();
 		ArrayList<Integer> id_candidati = dao.getPartecipanti(id_scheda);
@@ -223,7 +245,9 @@ public class SessionSystem {
 		return candidati;
 	}
 
-	private ArrayList<Votabile> loadCandidatiCategorica(int id_scheda, String tipoString) throws Exception {
+	
+	/*@ requires id_scheda != null && id_scheda > 0 && !tipoString.isEmpty(); @*/
+	private /*@ non null @*/ ArrayList<Votabile> loadCandidatiCategorica(int id_scheda, String tipoString) throws Exception {
 		SistemaVotazioniDAO dao = SistemaVotazioniDAO.getInstance();
 		System.out.println("++++++++++++NULLLE "+ tipoString + " ----");
 		TipoVotabile tipo = TipoVotabile.valueOf(tipoString);
@@ -231,14 +255,14 @@ public class SessionSystem {
 		return loadCandidati(tipo, id_candidati);
 	}
 
-	private ArrayList<Votabile> loadCandidatiOrdinale(int id_scheda, String tipoString) throws Exception {
+	private /*@ non null @*/ ArrayList<Votabile> loadCandidatiOrdinale(int id_scheda, String tipoString) throws Exception {
 		SistemaVotazioniDAO dao = SistemaVotazioniDAO.getInstance();
 		TipoVotabile tipo = TipoVotabile.valueOf(tipoString);
 		ArrayList<Integer> id_candidati = dao.getConcorrenti(id_scheda);
 		return loadCandidati(tipo, id_candidati);
 	}
 
-	private ArrayList<Votabile> loadCandidati(TipoVotabile tipo, ArrayList<Integer> id_candidati) throws Exception {
+	private /*@ non null @*/ ArrayList<Votabile> loadCandidati(TipoVotabile tipo, ArrayList<Integer> id_candidati) throws Exception {
 		ArrayList<Votabile> candidati = new ArrayList<Votabile>();
 		for (Integer id : id_candidati) {
 			switch (tipo) {
@@ -255,7 +279,8 @@ public class SessionSystem {
 		return candidati;
 	}
 
-	private Candidato getCandidato(Integer id) throws Exception {
+	/*@ requires id != null && id > 0; @*/
+	private /*@ non null @*/ Candidato getCandidato(Integer id) throws Exception {
 		if (null != id) {
 			for (Candidato candidato : candidati) {
 				if (candidato.getId() == id) {
@@ -266,6 +291,7 @@ public class SessionSystem {
 		throw new Exception("Errore con get partito!!!");
 	}
 
+	/*@ requires id != null && id > 0; @*/
 	private Partito getPartito(Integer id) throws Exception {
 		if (null != id) {
 			for (Partito partito : partiti) {
@@ -276,15 +302,19 @@ public class SessionSystem {
 		}
 		throw new Exception("Errore con get partito!!!");
 	}
-
+	
+	/*@ requires stage != null; 
+	 * assignable stage;@*/
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
 
-	public Stage getStage() {
+	public /*@ non null @*/ Stage getStage() {
 		return stage;
 	}
 
+	/*@ requires !path.isEmpty();
+	 *  assignable stage;@*/
 	public void loadStage(String path, String titolo) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
 		Parent root = loader.load();
@@ -301,40 +331,45 @@ public class SessionSystem {
 			e.printStackTrace();
 		}
 	}
-
-	public VBox getContent() {
+	
+	/*@ assignable stage; @*/
+	public /*@ pure non null @*/ VBox getContent() {
 		return content;
 	}
 
+	/*@ requires content != null;
+	 * assignable content @*/
 	public void setContent(VBox content) {
 		this.content = content;
 	}
-
-	public void setUtente(Utente Utente) {
-		this.utente = Utente;
+	
+	/*@ requires utente != null; 
+	 * assignable utente;@*/
+	public void setUtente(Utente utente) {
+		this.utente = utente;
 	}
 
-	public Utente getUtente() {
+	public /*@ pure non null @*/ Utente getUtente() {
 		return utente;
 	}
 
-	public ArrayList<Scheda> getSchede() {
+	public /*@ pure non null @*/ ArrayList<Scheda> getSchede() {
 		return schede;
 	}
 
-	public ArrayList<Partito> getPartiti() {
+	public /*@ pure non null @*/ ArrayList<Partito> getPartiti() {
 		return partiti;
 	}
 
-	public ArrayList<Candidato> getCandidati() {
+	public /*@ pure non null @*/ ArrayList<Candidato> getCandidati() {
 		return candidati;
 	}
 
-	public ArrayList<Lista> getListe() {
+	public /*@ pure non null @*/ ArrayList<Lista> getListe() {
 		return liste;
 	}
 
-	public ArrayList<Lista> getListe(String filtro) {
+	public /*@ non null @*/ ArrayList<Lista> getListe(String filtro) {
 		ArrayList<Lista> values = new ArrayList<Lista>();
 		for (Lista lista : liste) {
 			if (lista.getNome().toLowerCase().startsWith(filtro)) {
@@ -349,7 +384,7 @@ public class SessionSystem {
 		schede = loadSchede();
 	}
 	
-	public ArrayList<Candidato> getCandidati(String filtro) {
+	public /*@ non null @*/ ArrayList<Candidato> getCandidati(String filtro) {
 		ArrayList<Candidato> values = new ArrayList<Candidato>();
 		for (Candidato candidato : candidati) {
 			if (candidato.getCognome().toLowerCase().startsWith(filtro.toLowerCase())
@@ -360,7 +395,7 @@ public class SessionSystem {
 		return values;
 	}
 
-	public ArrayList<Partito> getPartiti(String filtro) {
+	public /*@ non null @*/ ArrayList<Partito> getPartiti(String filtro) {
 		ArrayList<Partito> values = new ArrayList<Partito>();
 		for (Partito partito : partiti) {
 			if (partito.getNome().toLowerCase().startsWith(filtro)) {
@@ -370,7 +405,7 @@ public class SessionSystem {
 		return values;
 	}
 
-	public ArrayList<Partito> convertiPartiti(ArrayList<PartitoDTO> array) {
+	public /*@ non null @*/ ArrayList<Partito> convertiPartiti(ArrayList<PartitoDTO> array) {
 		ArrayList<Partito> valori = new ArrayList<Partito>();
 		for (PartitoDTO a : array) {
 			valori.add(new Partito(a));
@@ -378,7 +413,7 @@ public class SessionSystem {
 		return valori;
 	}
 
-	public ArrayList<Candidato> convertiCandidati(ArrayList<CandidatoDTO> array) {
+	public /*@ non null @*/ ArrayList<Candidato> convertiCandidati(ArrayList<CandidatoDTO> array) {
 		ArrayList<Candidato> valori = new ArrayList<Candidato>();
 		for (CandidatoDTO candidato : array) {
 			try {
@@ -391,7 +426,7 @@ public class SessionSystem {
 		return valori;
 	}
 
-	public ArrayList<Regione> convertiRegione(ArrayList<RegioneDTO> array) {
+	public /*@ non null @*/ ArrayList<Regione> convertiRegione(ArrayList<RegioneDTO> array) {
 		ArrayList<Regione> valori = new ArrayList<Regione>();
 		for (RegioneDTO regione : array) {
 			try {
@@ -404,7 +439,7 @@ public class SessionSystem {
 		return valori;
 	}
 
-	public ArrayList<Nazionalita> convertiPaesi(ArrayList<NazionalitaDTO> array) {
+	public /*@ non null @*/ ArrayList<Nazionalita> convertiPaesi(ArrayList<NazionalitaDTO> array) {
 		ArrayList<Nazionalita> valori = new ArrayList<Nazionalita>();
 		for (NazionalitaDTO nazione : array) {
 			try {
@@ -417,31 +452,32 @@ public class SessionSystem {
 		return valori;
 	}
 
-	public ArrayList<Regione> getRegioni() {
+	public /*@ non null @*/ ArrayList<Regione> getRegioni() {
 		return regioni;
 	}
 
-	public ArrayList<Provincia> getProvince() {
+	public /*@ non null @*/ ArrayList<Provincia> getProvince() {
 		return province;
 	}
 
-	public ArrayList<Comune> getComuni() {
+	public /*@ non null @*/ ArrayList<Comune> getComuni() {
 		return comuni;
 	}
 
-	public ArrayList<Nazionalita> getNazionalita() {
+	public /*@ non null @*/ ArrayList<Nazionalita> getNazionalita() {
 		return nazionalita;
 	}
 
-	public Scheda getScheda() {
+	public /*@ non null @*/ Scheda getScheda() {
 		return scheda;
 	}
 
+	/*@ requires scheda != null; @*/
 	public void setScheda(Scheda scheda) {
 		this.scheda = scheda;
 	}
 
-	public ArrayList<Scheda> getSchedeNonCompilate() {
+	public /*@ non null @*/ ArrayList<Scheda> getSchedeNonCompilate() {
 		loadSchede();
 		@SuppressWarnings("unchecked")
 		ArrayList<Scheda> schedeNonCompilate = (ArrayList<Scheda>) schede.clone();
@@ -453,7 +489,7 @@ public class SessionSystem {
 		return schedeNonCompilate;
 	}
 
-	public ArrayList<Scheda> getSchedeCompilate(ArrayList<Integer> idSchede) {
+	public /*@ non null @*/ ArrayList<Scheda> getSchedeCompilate(ArrayList<Integer> idSchede) {
 		ArrayList<Scheda> compilate = new ArrayList<Scheda>();
 		for (Integer id : idSchede) {
 			for (Scheda scheda : schede) {
@@ -466,7 +502,7 @@ public class SessionSystem {
 		return compilate;
 	}
 
-	public ArrayList<Scheda> getSchedeConcluse() {
+	public /*@ non null @*/ ArrayList<Scheda> getSchedeConcluse() {
 		ArrayList<Scheda> compilate = new ArrayList<Scheda>();
 		for (Scheda scheda : schede) {
 			if (scheda.getStato().equals(Stato.CONCLUSO)) {
@@ -492,6 +528,7 @@ public class SessionSystem {
 		return popup;
 	}
 
+	/*@ requires popup != null; @*/
 	public void setPopup(Stage popup) {
 		this.popup = popup;
 	}
